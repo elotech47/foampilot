@@ -1,0 +1,13 @@
+.env
+OpenFOAM-11/
+cases/
+tutorials/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+.venv/
+development.md
+*.docx

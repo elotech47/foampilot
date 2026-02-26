@@ -1,0 +1,55 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "foampilot"
+version = "0.1.0"
+description = "AI agent for setting up, running, and analyzing OpenFOAM CFD simulations"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40.0",
+    "rich>=13.0",
+    "textual>=0.40.0",
+    "docker>=7.0",
+    "sentence-transformers>=3.0",
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+    "pyyaml>=6.0",
+    "structlog>=24.0",
+    "pydantic>=2.5",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4",
+]
+web = [
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+    "websockets>=12.0",
+]
+
+[project.scripts]
+foampilot = "foampilot.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/foampilot"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+markers = [
+    "docker: requires Docker to be running",
+]

@@ -1,0 +1,46 @@
+Mesh stats
+    points:           2180
+    faces:            4156
+    internal faces:   3956
+    cells:            2000
+    faces per cell:   4.222
+    boundary patches: 4
+    point zones:      0
+    face zones:       0
+    cell zones:       0
+
+Overall number of cells of each type:
+    hexahedra:     0
+    prisms:        0
+    wedges:        0
+    pyramids:      0
+    tet wedges:    0
+    tetrahedra:    2000
+    polyhedra:     0
+
+Checking topology...
+    Boundary definition OK.
+    Cell to face addressing OK.
+    Point usage OK.
+    Upper triangular ordering OK.
+    Face vertices OK.
+   *Number of regions: 1 (OK).
+
+Checking patch topology for multiply connected surfaces...
+    Patch Faces    Points   Surface topology
+    inlet    10    22        ok (non-closed singly connected)
+
+Checking geometry...
+    Overall domain bounding box (-1 -0.1 0) (1 0.1 0.1)
+    Mesh (non-empty, non-wedge) directions (1 1 0)
+    Mesh (non-empty) directions (1 1 0)
+ ***High aspect ratio cells found, Max aspect ratio: 523.4, 12 cells with aspect ratio > 100
+ ***Maximum skewness = 4.512, 3 highly skew cells found.
+    Minimum face area = 2.54e-07. Maximum face area = 1.2e-04.  Face area magnitudes OK.
+    Min volume = 2.54e-12. Max volume = 1.45e-08. Total volume = 2e-05.  All volumes > 0.
+    Minimum determinant: -0.12. *NEGATIVE DETERMINANT FOUND*
+
+FOAM Warning:
+    Mesh quality is poor. Please check mesh before running simulation.
+
+Failed 3 mesh checks.

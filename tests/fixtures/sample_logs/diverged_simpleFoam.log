@@ -1,0 +1,12 @@
+Time = 10
+
+smoothSolver:  Solving for Ux, Initial residual = 0.543217, Final residual = 0.0259073, No Iterations 50
+smoothSolver:  Solving for Uy, Initial residual = 0.642819, Final residual = 0.0393754, No Iterations 50
+GAMG:  Solving for p, Initial residual = 0.918237, Final residual = 0.107597, No Iterations 50
+time step continuity errors : sum local = 1.01e+02, global = 2.05e+01, cumulative = 2.05e+01
+
+DIVergence detected in field U
+Floating point exception
+
+FOAM FATAL ERROR:
+Maximum number of iterations exceeded

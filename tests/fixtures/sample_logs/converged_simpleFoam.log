@@ -1,0 +1,33 @@
+/*---------------------------------------------------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Version:  11
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+
+Time = 50
+
+smoothSolver:  Solving for Ux, Initial residual = 0.0453217, Final residual = 2.59073e-06, No Iterations 2
+smoothSolver:  Solving for Uy, Initial residual = 0.0342819, Final residual = 1.93754e-06, No Iterations 2
+smoothSolver:  Solving for Uz, Initial residual = 0, Final residual = 0, No Iterations 0
+GAMG:  Solving for p, Initial residual = 0.0718237, Final residual = 1.07597e-07, No Iterations 3
+time step continuity errors : sum local = 1.01e-08, global = -2.05e-10, cumulative = -2.05e-10
+smoothSolver:  Solving for epsilon, Initial residual = 0.0145829, Final residual = 9.43254e-07, No Iterations 3
+smoothSolver:  Solving for k, Initial residual = 0.0238721, Final residual = 1.47832e-06, No Iterations 3
+ExecutionTime = 12.5 s  ClockTime = 14 s
+
+Time = 100
+
+smoothSolver:  Solving for Ux, Initial residual = 0.00123, Final residual = 1.2e-07, No Iterations 2
+smoothSolver:  Solving for Uy, Initial residual = 0.000982, Final residual = 9.8e-08, No Iterations 2
+smoothSolver:  Solving for Uz, Initial residual = 0, Final residual = 0, No Iterations 0
+GAMG:  Solving for p, Initial residual = 0.00218, Final residual = 2.18e-08, No Iterations 3
+time step continuity errors : sum local = 3.2e-10, global = -1.1e-11, cumulative = -1.1e-11
+smoothSolver:  Solving for epsilon, Initial residual = 0.000432, Final residual = 4.3e-08, No Iterations 3
+smoothSolver:  Solving for k, Initial residual = 0.000651, Final residual = 6.5e-08, No Iterations 3
+ExecutionTime = 25.1 s  ClockTime = 28 s
+
+End
+
+Finalising parallel run

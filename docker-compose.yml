@@ -1,0 +1,28 @@
+services:
+  openfoam:
+    image: openfoam/openfoam11-paraview510
+    container_name: foampilot-openfoam
+    volumes:
+      - ./cases:/home/openfoam/cases
+      - ./tutorials:/home/openfoam/tutorials
+    stdin_open: true
+    tty: true
+    entrypoint: ["tail", "-f", "/dev/null"]
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    container_name: foampilot-agent
+    volumes:
+      - ./cases:/home/foampilot/cases
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OPENFOAM_CONTAINER=foampilot-openfoam
+      - OPENFOAM_VERSION=11
+      - OPENFOAM_DISTRIBUTION=foundation
+    depends_on:
+      - openfoam
+    ports:
+      - "8080:8080"
