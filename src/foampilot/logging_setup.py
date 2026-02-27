@@ -1,7 +1,7 @@
-"""Configure structlog with dual-sink logging.
+"""Configure structlog with file-only logging.
 
-- Console (stderr): INFO level by default, DEBUG when verbose=True.
-- File (logs/foampilot.log): DEBUG level always, rotating 10 MB × 3.
+The terminal UI is handled exclusively by Rich. No log output goes to
+stdout or stderr — everything is routed to the rotating log file.
 
 Call configure_logging() once at process startup before any structlog usage.
 """
@@ -18,17 +18,18 @@ def configure_logging(
     verbose: bool = False,
     log_dir: Path | None = None,
 ) -> None:
-    """Set up structlog + stdlib for dual-sink logging.
+    """Set up structlog + stdlib for file-only logging.
 
     Args:
-        verbose: If True, show DEBUG messages on the terminal too.
+        verbose: If True, log at DEBUG level to the file (default: INFO).
         log_dir: Directory for the log file (default: <cwd>/logs).
     """
     log_dir = log_dir or (Path.cwd() / "logs")
     log_dir.mkdir(parents=True, exist_ok=True)
     log_file = log_dir / "foampilot.log"
 
-    # Processors applied before the stdlib bridge
+    file_level = logging.DEBUG if verbose else logging.INFO
+
     shared_processors: list = [
         structlog.stdlib.add_logger_name,
         structlog.stdlib.add_log_level,
@@ -46,25 +47,14 @@ def configure_logging(
         cache_logger_on_first_use=True,
     )
 
-    # ── Console handler (INFO by default, DEBUG with --verbose) ───────────────
-    console_level = logging.DEBUG if verbose else logging.INFO
-    console_handler = logging.StreamHandler(sys.stderr)
-    console_handler.setLevel(console_level)
-    console_handler.setFormatter(
-        structlog.stdlib.ProcessorFormatter(
-            processor=structlog.dev.ConsoleRenderer(colors=sys.stderr.isatty()),
-            foreign_pre_chain=shared_processors,
-        )
-    )
-
-    # ── File handler (DEBUG always, rotating) ────────────────────────────────
+    # ── File handler only — no console handler ────────────────────────────────
     file_handler = logging.handlers.RotatingFileHandler(
         log_file,
         maxBytes=10 * 1024 * 1024,  # 10 MB
         backupCount=3,
         encoding="utf-8",
     )
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(file_level)
     file_handler.setFormatter(
         structlog.stdlib.ProcessorFormatter(
             processor=structlog.processors.JSONRenderer(),
@@ -72,9 +62,15 @@ def configure_logging(
         )
     )
 
+    # Root logger: WARNING so stray library output doesn't escape to anywhere
     root = logging.getLogger()
-    root.setLevel(logging.DEBUG)
-    # Remove any default handlers (e.g., from previous configure calls)
+    root.setLevel(logging.WARNING)
     root.handlers.clear()
-    root.addHandler(console_handler)
     root.addHandler(file_handler)
+
+    # Raise foampilot's own loggers to file_level so our messages are captured
+    logging.getLogger("foampilot").setLevel(file_level)
+
+    # Silence noisy third-party libraries completely
+    for noisy in ("httpx", "httpcore", "anthropic", "urllib3", "docker"):
+        logging.getLogger(noisy).setLevel(logging.WARNING)

@@ -88,8 +88,8 @@ class _CaseLogger:
             try:
                 with self._path.open("a", encoding="utf-8") as fh:
                     fh.write(line + "\n")
-            except OSError:
-                pass  # Don't crash the agent over log write errors
+            except Exception:
+                pass  # silently ignore — never crash the agent over a log write
 
 
 class Orchestrator:
@@ -112,6 +112,8 @@ class Orchestrator:
         self._approval_cb = approval_callback
         self._session_id = str(uuid.uuid4())[:8]
         self._docker = self._init_docker()
+        # Set by TerminalUI before run() so ClarifyAgent can print to the real console
+        self._console_ref: Any = None
 
     def _init_docker(self):
         """Connect to the Docker daemon, handling macOS socket fallback."""
@@ -132,11 +134,19 @@ class Orchestrator:
         if self._event_cb:
             self._event_cb({"type": event_type, "data": data})
 
-    def run(self, user_request: str) -> SimulationState:
+    def run(
+        self,
+        user_request: str,
+        confirmed_params: dict | None = None,
+    ) -> SimulationState:
         """Execute the full simulation pipeline for a user request.
 
         Args:
             user_request: Natural language simulation request from the user.
+                May be a refined version produced by the ClarifyAgent.
+            confirmed_params: Parameters explicitly agreed by the user during
+                pre-flight clarification. If provided, the CLARIFYING phase is
+                skipped and these params are injected directly into the state.
 
         Returns:
             Final SimulationState after all phases complete (or fail).
@@ -159,7 +169,9 @@ class Orchestrator:
         self._emit("session_start", {"session_id": self._session_id, "request": user_request})
 
         try:
-            state = self._run_phases(state, state_manager, case_dir, user_request)
+            state = self._run_phases(
+                state, state_manager, case_dir, user_request, confirmed_params
+            )
         except Exception as exc:
             log.error("orchestrator_error", error=str(exc), session=self._session_id)
             state.set_phase(SimulationPhase.ERROR)
@@ -175,9 +187,11 @@ class Orchestrator:
         state_manager: StateManager,
         case_dir: Path,
         user_request: str,
+        confirmed_params: dict | None = None,
     ) -> SimulationState:
         """Run each simulation phase in sequence, skipping already-completed ones."""
         # Import agents here to avoid circular imports at module load time
+        from foampilot.agents.clarify_agent import ClarifyAgent
         from foampilot.agents.consult_agent import ConsultAgent
         from foampilot.agents.setup_agent import SetupAgent
         from foampilot.agents.mesh_agent import MeshAgent
@@ -190,14 +204,50 @@ class Orchestrator:
         }
         docker_kwargs = {**agent_kwargs, "docker_client": self._docker}
 
+        # Phase 0: Clarify
+        if state.phase == SimulationPhase.IDLE:
+            state.set_phase(SimulationPhase.CLARIFYING)
+            state_manager.save(state)
+            self._emit("phase_start", {"phase": "clarifying"})
+
+            if confirmed_params is not None:
+                # Clarification was done externally (by TerminalUI before Live opened)
+                state.confirmed_params = confirmed_params
+                log.info("clarify_skipped_external", params=list(confirmed_params))
+            elif self._console_ref is not None:
+                # Run clarification inline using the console reference
+                try:
+                    clarify = ClarifyAgent()
+                    result = clarify.run(user_request, console=self._console_ref)
+                    if result.cancelled:
+                        state.set_phase(SimulationPhase.IDLE)
+                        state_manager.save(state)
+                        self._emit("session_cancelled", {})
+                        return state
+                    user_request = result.refined_request
+                    state.confirmed_params = result.confirmed_params
+                except Exception as exc:
+                    log.warning("clarify_failed", error=str(exc), hint="Proceeding without clarification")
+
+            state.set_phase(SimulationPhase.CONSULTING)
+            state_manager.save(state)
+
         # Phase 1: Consult
-        if state.phase in (SimulationPhase.IDLE,):
+        if state.phase in (SimulationPhase.CLARIFYING, SimulationPhase.CONSULTING):
             state.set_phase(SimulationPhase.CONSULTING)
             state_manager.save(state)
             self._emit("phase_start", {"phase": "consulting"})
 
             consult = ConsultAgent(**agent_kwargs)
-            spec = consult.run(user_request)
+            consult_request = user_request
+            if state.confirmed_params:
+                params_json = json.dumps(state.confirmed_params, indent=2)
+                consult_request = (
+                    f"{user_request}\n\n"
+                    f"The user has already confirmed these parameters:\n```json\n{params_json}\n```\n"
+                    f"Use them directly — do not re-ask."
+                )
+            spec = consult.run(consult_request)
             state.simulation_spec = spec
             state_manager.save(state)
 

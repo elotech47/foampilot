@@ -17,6 +17,7 @@ log = structlog.get_logger(__name__)
 
 class SimulationPhase(str, Enum):
     IDLE = "idle"
+    CLARIFYING = "clarifying"
     CONSULTING = "consulting"
     SETUP = "setup"
     MESHING = "meshing"
@@ -41,6 +42,7 @@ class SimulationState:
     session_id: str
     phase: SimulationPhase = SimulationPhase.IDLE
     original_request: str = ""
+    confirmed_params: dict = field(default_factory=dict)
     simulation_spec: dict = field(default_factory=dict)
     case_dir: str | None = None
     tutorial_source: str | None = None
@@ -95,6 +97,8 @@ class StateManager:
         data["phase"] = SimulationPhase(data["phase"])
         mods = [FileModification(**m) for m in data.get("files_modified", [])]
         data["files_modified"] = mods
+        # Handle state files from before confirmed_params was added
+        data.setdefault("confirmed_params", {})
         return SimulationState(**data)
 
     def _write_markdown(self, state: SimulationState) -> None:
