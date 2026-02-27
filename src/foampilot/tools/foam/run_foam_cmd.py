@@ -85,10 +85,26 @@ class RunFoamCmdTool(Tool):
                 "Docker client not available. Cannot execute OpenFOAM commands."
             )
 
+        container_dir = self._to_container_path(case_dir)
+        log.info("run_foam_cmd", command=command, host_path=case_dir, container_path=container_dir)
+
         try:
-            return self._run_in_docker(command, case_dir, timeout, log_file, profile)
+            return self._run_in_docker(command, container_dir, timeout, log_file, profile)
         except Exception as exc:
             return ToolResult.fail(f"Docker execution failed: {exc}")
+
+    def _to_container_path(self, path_str: str) -> str:
+        """Translate a host-side case path to the container-side equivalent."""
+        from foampilot import config as cfg
+        from foampilot.docker.volume import VolumeManager
+        vm = VolumeManager()
+        # Already a container path — leave it alone
+        if path_str.startswith(vm._container_cases_dir):
+            return path_str
+        host_path = Path(path_str)
+        if not host_path.is_absolute():
+            host_path = cfg.PROJECT_ROOT / path_str
+        return vm.host_to_container(host_path)
 
     def _run_in_docker(self, command, case_dir, timeout, log_file, profile):
         from foampilot.docker.client import DockerClient

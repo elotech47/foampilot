@@ -164,10 +164,14 @@ class AgentLoop:
                 final_response = f"LLM call failed: {exc}"
                 break
 
+            text_content = " ".join(
+                b.text for b in response.content if hasattr(b, "text") and b.text  # type: ignore[attr-defined]
+            )
             self._emit("llm_response", {
                 "turn": turn,
                 "stop_reason": response.stop_reason,
                 "has_tool_calls": any(isinstance(b, ToolUseBlock) for b in response.content),
+                "text": text_content,
             })
 
             # Extract text content and tool calls

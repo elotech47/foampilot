@@ -9,7 +9,6 @@ import structlog
 from foampilot import config
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
-from foampilot.version.registry import VersionRegistry
 
 log = structlog.get_logger(__name__)
 
@@ -41,8 +40,7 @@ class CopyTutorialTool(Tool):
     permission_level = PermissionLevel.NOTIFY
 
     def execute(self, tutorial_path: str, destination: str, **kwargs: Any) -> ToolResult:
-        profile = VersionRegistry.get().active()
-        tutorials_root = Path(profile.TUTORIAL_BASE_PATH)
+        tutorials_root = config.TUTORIALS_DIR
         src = tutorials_root / tutorial_path
 
         if not src.exists():

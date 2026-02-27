@@ -135,6 +135,9 @@ class IndexBuilder:
 
     # ── Per-case metadata extraction ───────────────────────────────────────────
 
+    # OpenFOAM-11 modular runner apps — these delegate to a physics module
+    _MODULAR_RUNNERS = frozenset({"foamRun", "foamMultiRun"})
+
     def _extract_entry(self, case_dir: Path, tutorials_root: Path) -> TutorialEntry | None:
         """Extract metadata from a single case directory."""
         rel_path = str(case_dir.relative_to(tutorials_root))
@@ -146,9 +149,21 @@ class IndexBuilder:
             log.warning("controlDict_parse_failed", case=rel_path, error=str(exc))
             return None
 
-        solver = str(
-            control_dict.data.get("application", control_dict.data.get("solver", "unknown"))
-        )
+        application = str(control_dict.data.get("application", "unknown")).strip()
+
+        # OpenFOAM-11 uses foamRun/foamMultiRun as runner with a separate 'solver'
+        # key that names the actual physics module (e.g., incompressibleFluid).
+        if application in self._MODULAR_RUNNERS:
+            physics_module = str(control_dict.data.get("solver", "")).strip()
+            solver = physics_module if physics_module else application
+            log.debug(
+                "v11_modular_solver",
+                case=rel_path,
+                runner=application,
+                physics_module=solver,
+            )
+        else:
+            solver = application
 
         all_files = []
         for root, _, fnames in os.walk(case_dir):
@@ -204,6 +219,27 @@ class IndexBuilder:
 
         return patches
 
+    # Maps lowercase v11 physics module names → inferred physics tags
+    _V11_MODULE_TAGS: dict[str, list[str]] = {
+        "incompressiblefluid": ["incompressible"],
+        "compressiblefluid": ["compressible"],
+        "multicomponentfluid": ["compressible"],
+        "incompressiblevof": ["multiphase", "incompressible"],
+        "compressiblevof": ["multiphase", "compressible"],
+        "multiphaseeuler": ["multiphase"],
+        "isothermaldriftflux": ["multiphase", "incompressible"],
+        "shallowwater": ["incompressible"],
+        "xifluid": ["compressible"],
+        "buoyantboussinesqsimplefluid": ["incompressible", "heat_transfer"],
+        "buoyantsimplefluid": ["compressible", "heat_transfer"],
+        "buoyantsimplefoam": ["compressible", "heat_transfer"],
+        "solidfluid": ["heat_transfer"],
+        "solidbodymotion": [],
+        "reactions": ["compressible"],
+        "electrokineticfluid": [],
+        "isothermalfilm": ["multiphase"],
+    }
+
     def _infer_physics_tags(
         self, case_dir: Path, solver: str, control_dict,
     ) -> list[str]:
@@ -211,18 +247,23 @@ class IndexBuilder:
         tags: list[str] = []
         solver_lower = solver.lower()
 
-        if any(s in solver_lower for s in ["icofoam", "simplefoam", "pimplefoam", "srf",
-                                            "incompressible"]):
-            tags.append("incompressible")
+        # Check v11 physics module table first (exact module name match)
+        if solver_lower in self._V11_MODULE_TAGS:
+            tags.extend(self._V11_MODULE_TAGS[solver_lower])
+        else:
+            # Classic solver name patterns (v6–v10)
+            if any(s in solver_lower for s in ["icofoam", "simplefoam", "pimplefoam", "srf",
+                                                "incompressible"]):
+                tags.append("incompressible")
 
-        if any(s in solver_lower for s in ["rho", "sonic", "compressible", "central"]):
-            tags.append("compressible")
+            if any(s in solver_lower for s in ["rho", "sonic", "compressible", "central"]):
+                tags.append("compressible")
 
-        if any(s in solver_lower for s in ["inter", "multiphase", "vof", "drift"]):
-            tags.append("multiphase")
+            if any(s in solver_lower for s in ["inter", "multiphase", "vof", "drift"]):
+                tags.append("multiphase")
 
-        if any(s in solver_lower for s in ["buoyant", "cht", "heat"]):
-            tags.append("heat_transfer")
+            if any(s in solver_lower for s in ["buoyant", "cht", "heat"]):
+                tags.append("heat_transfer")
 
         fv_schemes_path = case_dir / "system" / "fvSchemes"
         if fv_schemes_path.exists():

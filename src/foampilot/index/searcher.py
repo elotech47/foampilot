@@ -181,9 +181,33 @@ class TutorialSearcher:
                 solver=solver,
                 physics_tags=physics_tags,
                 require_mesh_type=require_mesh_type,
-                hint="Try relaxing the filter criteria",
+                hint="Relaxing filter criteria automatically",
             )
-            return []
+            # Relax: drop solver constraint, keep physics tags
+            if solver and (physics_tags or require_mesh_type):
+                log.info("search_relax_solver", dropped="solver", keeping="physics_tags")
+                candidates = self._hard_filter(None, physics_tags, require_mesh_type)
+
+            # Relax further: drop physics tags too, keep mesh type
+            if not candidates and physics_tags:
+                log.info("search_relax_physics", dropped="physics_tags", keeping="mesh_type")
+                candidates = self._hard_filter(None, None, require_mesh_type)
+
+            # Last resort: drop all constraints
+            if not candidates:
+                log.info("search_relax_all", dropped="all_constraints")
+                candidates = self._hard_filter(None, None, None)
+
+            if not candidates:
+                log.warning("search_empty_index", reason="index has no entries")
+                return []
+
+            log.info(
+                "search_relaxed_candidates",
+                candidates=len(candidates),
+                original_solver=solver,
+                original_physics=physics_tags,
+            )
 
         # ── Stage 2: Query embedding (semantic search) ───────────────────────
         query_embedding = None

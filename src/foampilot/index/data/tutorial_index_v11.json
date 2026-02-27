@@ -154,7 +154,7 @@
   },
   {
     "path": "incompressibleDenseParticleFluid/column",
-    "solver": "foamRun",
+    "solver": "incompressibleDenseParticleFluid",
     "version": "11",
     "files": [
       "0/U.air",
@@ -175,17 +175,19 @@
       "bottom": "noSlip"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleDenseParticleFluid/column \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleDenseParticleFluid/column \u2014 incompressibleDenseParticleFluid (incompressible, compressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleDenseParticleFluid/injectionChannel",
-    "solver": "foamRun",
+    "solver": "incompressibleDenseParticleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -209,17 +211,19 @@
       "frontAndBack": "symmetry"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleDenseParticleFluid/injectionChannel \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleDenseParticleFluid/injectionChannel \u2014 incompressibleDenseParticleFluid (incompressible, compressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleDenseParticleFluid/GoldschmidtMPPIC",
-    "solver": "foamRun",
+    "solver": "incompressibleDenseParticleFluid",
     "version": "11",
     "files": [
       "0/U.air",
@@ -242,17 +246,19 @@
       "frontAndBack": "symmetry"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleDenseParticleFluid/GoldschmidtMPPIC \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleDenseParticleFluid/GoldschmidtMPPIC \u2014 incompressibleDenseParticleFluid (incompressible, compressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleDenseParticleFluid/cyclone",
-    "solver": "foamRun",
+    "solver": "incompressibleDenseParticleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -278,17 +284,19 @@
       "walls": "nutkWallFunction"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleDenseParticleFluid/cyclone \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleDenseParticleFluid/cyclone \u2014 incompressibleDenseParticleFluid (incompressible, compressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleDenseParticleFluid/Goldschmidt",
-    "solver": "foamRun",
+    "solver": "incompressibleDenseParticleFluid",
     "version": "11",
     "files": [
       "0/U.air",
@@ -311,17 +319,19 @@
       "frontAndBack": "symmetry"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleDenseParticleFluid/Goldschmidt \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleDenseParticleFluid/Goldschmidt \u2014 incompressibleDenseParticleFluid (incompressible, compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/counterFlowFlame2D",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -349,17 +359,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/counterFlowFlame2D \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/counterFlowFlame2D \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/parcelInBox",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "README",
@@ -390,17 +401,18 @@
       "inlet": "fixedValue"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/parcelInBox \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/parcelInBox \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/counterFlowFlame2DLTS_GRI_TDAC",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -429,17 +441,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/counterFlowFlame2DLTS_GRI_TDAC \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/counterFlowFlame2DLTS_GRI_TDAC \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/verticalChannel",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -474,17 +487,18 @@
       "inletCentral": "fixedValue"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/verticalChannel \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/verticalChannel \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/counterFlowFlame2DLTS",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -512,17 +526,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/counterFlowFlame2DLTS \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/counterFlowFlame2DLTS \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/counterFlowFlame2D_GRI_TDAC",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -551,17 +566,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/counterFlowFlame2D_GRI_TDAC \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/counterFlowFlame2D_GRI_TDAC \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/smallPoolFire3D",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -605,17 +621,18 @@
       "inlet": "fixedFluxPressure"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/smallPoolFire3D \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/smallPoolFire3D \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/DLR_A_LTS",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -662,17 +679,18 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/DLR_A_LTS \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/DLR_A_LTS \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/nc7h16",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -696,17 +714,18 @@
     ],
     "boundary_patches": {},
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "multicomponentFluid/nc7h16 \u2014 foamRun (transient, external)"
+    "description": "multicomponentFluid/nc7h16 \u2014 multicomponentFluid (compressible, transient, external)"
   },
   {
     "path": "multicomponentFluid/smallPoolFire2D",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -752,17 +771,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/smallPoolFire2D \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/smallPoolFire2D \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/verticalChannelSteady",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -797,17 +817,18 @@
       "inletCentral": "fixedValue"
     },
     "physics_tags": [
+      "compressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/verticalChannelSteady \u2014 foamRun (steady, blockMesh)"
+    "description": "multicomponentFluid/verticalChannelSteady \u2014 multicomponentFluid (compressible, steady, blockMesh)"
   },
   {
     "path": "multicomponentFluid/verticalChannelLTS",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -842,17 +863,18 @@
       "inletCentral": "fixedValue"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/verticalChannelLTS \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/verticalChannelLTS \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/filter",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -891,17 +913,18 @@
       "cycRight_half1": "cyclic"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/filter \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/filter \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/lockExchange",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -928,17 +951,18 @@
       "frontBack": "empty"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/lockExchange \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/lockExchange \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/membrane",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -974,17 +998,18 @@
       "(wall|membrane).*": "epsilonWallFunction"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "multicomponentFluid/membrane \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "multicomponentFluid/membrane \u2014 multicomponentFluid (compressible, transient, snappyHexMesh)"
   },
   {
     "path": "multicomponentFluid/counterFlowFlame2D_GRI",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun-parallel",
@@ -1015,17 +1040,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/counterFlowFlame2D_GRI \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/counterFlowFlame2D_GRI \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/aachenBomb",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -1059,17 +1085,18 @@
       "walls": "zeroGradient"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/aachenBomb \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/aachenBomb \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "multicomponentFluid/simplifiedSiwek",
-    "solver": "foamRun",
+    "solver": "multicomponentFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -1117,17 +1144,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "multicomponentFluid/simplifiedSiwek \u2014 foamRun (transient, blockMesh)"
+    "description": "multicomponentFluid/simplifiedSiwek \u2014 multicomponentFluid (compressible, transient, blockMesh)"
   },
   {
     "path": "solidDisplacement/plateHole",
-    "solver": "foamRun",
+    "solver": "solidDisplacement",
     "version": "11",
     "files": [
       "Allrun",
@@ -1155,11 +1183,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "solidDisplacement/plateHole \u2014 foamRun (transient, blockMesh)"
+    "description": "solidDisplacement/plateHole \u2014 solidDisplacement (transient, blockMesh)"
   },
   {
     "path": "solidDisplacement/beamEndLoad",
-    "solver": "foamRun",
+    "solver": "solidDisplacement",
     "version": "11",
     "files": [
       "0/T",
@@ -1184,11 +1212,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "solidDisplacement/beamEndLoad \u2014 foamRun (transient, blockMesh)"
+    "description": "solidDisplacement/beamEndLoad \u2014 solidDisplacement (transient, blockMesh)"
   },
   {
     "path": "movingMesh/SnakeRiverCanyon",
-    "solver": "foamRun",
+    "solver": "movingMesh",
     "version": "11",
     "files": [
       "0/pointDisplacement",
@@ -1218,11 +1246,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "movingMesh/SnakeRiverCanyon \u2014 foamRun (transient, blockMesh)"
+    "description": "movingMesh/SnakeRiverCanyon \u2014 movingMesh (transient, blockMesh)"
   },
   {
     "path": "isothermalFilm/rivuletPanel",
-    "solver": "foamRun",
+    "solver": "isothermalFilm",
     "version": "11",
     "files": [
       "0/delta",
@@ -1245,17 +1273,18 @@
       "empty": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "isothermalFilm/rivuletPanel \u2014 foamRun (transient, blockMesh)"
+    "description": "isothermalFilm/rivuletPanel \u2014 isothermalFilm (multiphase, transient, blockMesh)"
   },
   {
     "path": "compressibleMultiphaseVoF/damBreak4phaseLaminar",
-    "solver": "foamRun",
+    "solver": "compressibleMultiphaseVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -1290,17 +1319,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleMultiphaseVoF/damBreak4phaseLaminar \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleMultiphaseVoF/damBreak4phaseLaminar \u2014 compressibleMultiphaseVoF (compressible, multiphase, transient, blockMesh)"
   },
   {
     "path": "incompressibleMultiphaseVoF/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "incompressibleMultiphaseVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -1331,17 +1362,20 @@
       "back": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleMultiphaseVoF/mixerVessel2DMRF \u2014 foamRun (transient, external)"
+    "description": "incompressibleMultiphaseVoF/mixerVessel2DMRF \u2014 incompressibleMultiphaseVoF (incompressible, compressible, multiphase, transient, external)"
   },
   {
     "path": "incompressibleMultiphaseVoF/damBreak4phaseFineLaminar",
-    "solver": "foamRun",
+    "solver": "incompressibleMultiphaseVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -1374,17 +1408,20 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleMultiphaseVoF/damBreak4phaseFineLaminar \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleMultiphaseVoF/damBreak4phaseFineLaminar \u2014 incompressibleMultiphaseVoF (incompressible, compressible, multiphase, transient, blockMesh)"
   },
   {
     "path": "incompressibleMultiphaseVoF/damBreak4phase",
-    "solver": "foamRun",
+    "solver": "incompressibleMultiphaseVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -1420,17 +1457,20 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleMultiphaseVoF/damBreak4phase \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleMultiphaseVoF/damBreak4phase \u2014 incompressibleMultiphaseVoF (incompressible, compressible, multiphase, transient, blockMesh)"
   },
   {
     "path": "incompressibleMultiphaseVoF/damBreak4phaseLaminar",
-    "solver": "foamRun",
+    "solver": "incompressibleMultiphaseVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -1463,13 +1503,16 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleMultiphaseVoF/damBreak4phaseLaminar \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleMultiphaseVoF/damBreak4phaseLaminar \u2014 incompressibleMultiphaseVoF (incompressible, compressible, multiphase, transient, blockMesh)"
   },
   {
     "path": "legacy/electromagnetics/electrostaticFoam/chargedWire",
@@ -2267,7 +2310,7 @@
   },
   {
     "path": "fluid/hotRoomComfort",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2302,11 +2345,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRoomComfort \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/hotRoomComfort \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/blockedChannel",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -2340,11 +2383,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/blockedChannel \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/blockedChannel \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/cavity",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -2376,11 +2419,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/cavity \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/cavity \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/decompressionTank/decompressionTank",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/U",
@@ -2407,11 +2450,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/decompressionTank/decompressionTank \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/decompressionTank/decompressionTank \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/externalCoupledCavity",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allmesh",
@@ -2452,11 +2495,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/externalCoupledCavity \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/externalCoupledCavity \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/buoyantCavity",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "README",
@@ -2509,11 +2552,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/buoyantCavity \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/buoyantCavity \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/hotRadiationRoom",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -2551,11 +2594,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRadiationRoom \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/hotRadiationRoom \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/shockTube",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "createGraphs",
@@ -2584,11 +2627,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/shockTube \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/shockTube \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/hotRoomBoussinesq",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2621,11 +2664,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRoomBoussinesq \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/hotRoomBoussinesq \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/angledDuct",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2657,11 +2700,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/angledDuct \u2014 foamRun (transient, external)"
+    "description": "fluid/angledDuct \u2014 fluid (transient, external)"
   },
   {
     "path": "fluid/prism",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -2693,11 +2736,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/prism \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/prism \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2730,11 +2773,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/mixerVessel2DMRF \u2014 foamRun (transient, external)"
+    "description": "fluid/mixerVessel2DMRF \u2014 fluid (transient, external)"
   },
   {
     "path": "fluid/aerofoilNACA0012Steady",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -2769,11 +2812,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/aerofoilNACA0012Steady \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/aerofoilNACA0012Steady \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/hotRadiationRoomFvDOM",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -2812,11 +2855,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRadiationRoomFvDOM \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/hotRadiationRoomFvDOM \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/pitzDaily",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2848,11 +2891,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/pitzDaily \u2014 foamRun (transient, external)"
+    "description": "fluid/pitzDaily \u2014 fluid (transient, external)"
   },
   {
     "path": "fluid/aerofoilNACA0012",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -2886,11 +2929,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/aerofoilNACA0012 \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/aerofoilNACA0012 \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/angledDuctExplicitFixedCoeff",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -2922,11 +2965,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/angledDuctExplicitFixedCoeff \u2014 foamRun (steady, external)"
+    "description": "fluid/angledDuctExplicitFixedCoeff \u2014 fluid (steady, external)"
   },
   {
     "path": "fluid/forwardStep",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/U",
@@ -2954,11 +2997,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/forwardStep \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/forwardStep \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/BernardCells",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -2987,11 +3030,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/BernardCells \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/BernardCells \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/hotRoom",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -3025,11 +3068,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRoom \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/hotRoom \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/annularThermalMixer",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -3076,11 +3119,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "fluid/annularThermalMixer \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "fluid/annularThermalMixer \u2014 fluid (transient, snappyHexMesh)"
   },
   {
     "path": "fluid/squareBendLiq",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -3111,11 +3154,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/squareBendLiq \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/squareBendLiq \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/angledDuctLTS",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -3147,11 +3190,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/angledDuctLTS \u2014 foamRun (transient, external)"
+    "description": "fluid/angledDuctLTS \u2014 fluid (transient, external)"
   },
   {
     "path": "fluid/iglooWithFridges",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -3185,11 +3228,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "fluid/iglooWithFridges \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "fluid/iglooWithFridges \u2014 fluid (steady, snappyHexMesh)"
   },
   {
     "path": "fluid/squareBendLiqSteady",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -3220,11 +3263,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/squareBendLiqSteady \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/squareBendLiqSteady \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/helmholtzResonance",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -3259,11 +3302,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/helmholtzResonance \u2014 foamRun (transient, blockMesh)"
+    "description": "fluid/helmholtzResonance \u2014 fluid (transient, blockMesh)"
   },
   {
     "path": "fluid/hotRoomBoussinesqSteady",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -3297,11 +3340,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/hotRoomBoussinesqSteady \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/hotRoomBoussinesqSteady \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "fluid/nacaAirfoil",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -3336,11 +3379,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "fluid/nacaAirfoil \u2014 foamRun (transient, external)"
+    "description": "fluid/nacaAirfoil \u2014 fluid (transient, external)"
   },
   {
     "path": "fluid/squareBend",
-    "solver": "foamRun",
+    "solver": "fluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -3371,7 +3414,7 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "fluid/squareBend \u2014 foamRun (steady, blockMesh)"
+    "description": "fluid/squareBend \u2014 fluid (steady, blockMesh)"
   },
   {
     "path": "multiRegion/CHT/reverseBurner",
@@ -4233,7 +4276,7 @@
   },
   {
     "path": "incompressibleDriftFlux/dahl",
-    "solver": "foamRun",
+    "solver": "incompressibleDriftFlux",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -4261,17 +4304,20 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleDriftFlux/dahl \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleDriftFlux/dahl \u2014 incompressibleDriftFlux (incompressible, compressible, multiphase, transient, blockMesh)"
   },
   {
     "path": "incompressibleDriftFlux/tank3D",
-    "solver": "foamRun",
+    "solver": "incompressibleDriftFlux",
     "version": "11",
     "files": [
       "Allclean",
@@ -4308,17 +4354,20 @@
       "OUTL15": "inletOutlet"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleDriftFlux/tank3D \u2014 foamRun (transient, external)"
+    "description": "incompressibleDriftFlux/tank3D \u2014 incompressibleDriftFlux (incompressible, compressible, multiphase, transient, external)"
   },
   {
     "path": "incompressibleDriftFlux/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "incompressibleDriftFlux",
     "version": "11",
     "files": [
       "Allrun",
@@ -4345,17 +4394,20 @@
       "back": "empty"
     },
     "physics_tags": [
+      "incompressible",
+      "compressible",
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleDriftFlux/mixerVessel2DMRF \u2014 foamRun (transient, external)"
+    "description": "incompressibleDriftFlux/mixerVessel2DMRF \u2014 incompressibleDriftFlux (incompressible, compressible, multiphase, transient, external)"
   },
   {
     "path": "multiphaseEuler/hydrofoil",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4401,17 +4453,18 @@
       "walls": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/hydrofoil \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/hydrofoil \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumn",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -4453,17 +4506,18 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumn \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumn \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bed",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -4497,17 +4551,18 @@
       "walls": "fixedFluxPressure"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bed \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bed \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/titaniaSynthesisSurface",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4552,17 +4607,18 @@
       "wall": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "multiphaseEuler/titaniaSynthesisSurface \u2014 foamRun (transient, external)"
+    "description": "multiphaseEuler/titaniaSynthesisSurface \u2014 multiphaseEuler (multiphase, transient, external)"
   },
   {
     "path": "multiphaseEuler/fluidisedBedLaminar",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -4600,17 +4656,18 @@
       "frontAndBackPlanes": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/fluidisedBedLaminar \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/fluidisedBedLaminar \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubblePipe",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4656,17 +4713,18 @@
       "walls": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubblePipe \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubblePipe \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/LBend",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "0/alpha.solids",
@@ -4703,17 +4761,18 @@
       "frontAndBack.*": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/LBend \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/LBend \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/wallBoilingPolydisperse",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4768,17 +4827,18 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/wallBoilingPolydisperse \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/wallBoilingPolydisperse \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -4818,17 +4878,18 @@
       "back": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "multiphaseEuler/mixerVessel2DMRF \u2014 foamRun (transient, external)"
+    "description": "multiphaseEuler/mixerVessel2DMRF \u2014 multiphaseEuler (multiphase, transient, external)"
   },
   {
     "path": "multiphaseEuler/titaniaSynthesis",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4874,17 +4935,18 @@
       "wall": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "multiphaseEuler/titaniaSynthesis \u2014 foamRun (transient, external)"
+    "description": "multiphaseEuler/titaniaSynthesis \u2014 multiphaseEuler (multiphase, transient, external)"
   },
   {
     "path": "multiphaseEuler/Grossetete",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -4929,17 +4991,18 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/Grossetete \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/Grossetete \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/injection",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -4970,17 +5033,18 @@
       "walls": "fixedFluxPressure"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/injection \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/injection \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnEvaporating",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5019,17 +5083,18 @@
       "walls": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnEvaporating \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnEvaporating \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/damBreak4phase",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5076,17 +5141,18 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/damBreak4phase \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/damBreak4phase \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnLES",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5126,17 +5192,18 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnLES \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnLES \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/wallBoilingIATE",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -5190,17 +5257,18 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/wallBoilingIATE \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/wallBoilingIATE \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/wallBoilingPolydisperseTwoGroups",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -5267,17 +5335,18 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/wallBoilingPolydisperseTwoGroups \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/wallBoilingPolydisperseTwoGroups \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/fluidisedBed",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5317,17 +5386,18 @@
       "frontAndBackPlanes": "empty"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/fluidisedBed \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/fluidisedBed \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/steamInjection",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "0/nut.water",
@@ -5358,17 +5428,18 @@
       "walls": "nutkWallFunction"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/steamInjection \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/steamInjection \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/pipeBend",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -5409,17 +5480,18 @@
       "walls": "nutkWallFunction"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/pipeBend \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/pipeBend \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnEvaporatingReacting",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allclean",
@@ -5464,17 +5536,18 @@
       "walls": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnEvaporatingReacting \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnEvaporatingReacting \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/mixerVessel2D",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5515,17 +5588,18 @@
       "nonCouple": "movingWallSlipVelocity"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "multiphaseEuler/mixerVessel2D \u2014 foamRun (transient, external)"
+    "description": "multiphaseEuler/mixerVessel2D \u2014 multiphaseEuler (multiphase, transient, external)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnLaminar",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5556,17 +5630,18 @@
       "walls": "fixedFluxPressure"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnLaminar \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnLaminar \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnIATE",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5598,17 +5673,18 @@
       "walls": "fixedFluxPressure"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnIATE \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnIATE \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "multiphaseEuler/bubbleColumnEvaporatingDissolving",
-    "solver": "foamRun",
+    "solver": "multiphaseEuler",
     "version": "11",
     "files": [
       "Allrun",
@@ -5643,17 +5719,18 @@
       "inlet": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "multiphaseEuler/bubbleColumnEvaporatingDissolving \u2014 foamRun (transient, blockMesh)"
+    "description": "multiphaseEuler/bubbleColumnEvaporatingDissolving \u2014 multiphaseEuler (multiphase, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/climbingRod",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "README",
@@ -5685,17 +5762,19 @@
       "atmosphere": "pressureInletOutletVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/climbingRod \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/climbingRod \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/sloshingCylinder",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5721,17 +5800,19 @@
       "wall": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/sloshingCylinder \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/sloshingCylinder \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/sloshingTank3D3DoF",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5754,17 +5835,19 @@
       "wall": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/sloshingTank3D3DoF \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/sloshingTank3D3DoF \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/damBreakLaminar/damBreak",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5791,17 +5874,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/damBreakLaminar/damBreak \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/damBreakLaminar/damBreak \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/planingHullW3",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh.2",
@@ -5846,17 +5931,19 @@
       "hull": "calculated"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/planingHullW3 \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/planingHullW3 \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/sloshingTank3D6DoF",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5883,17 +5970,19 @@
       "wall": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/sloshingTank3D6DoF \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/sloshingTank3D6DoF \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/sloshingTank2D3DoF",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5918,17 +6007,19 @@
       "walls": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/sloshingTank2D3DoF \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/sloshingTank2D3DoF \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/damBreakPorousBaffle",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -5960,17 +6051,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/damBreakPorousBaffle \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/damBreakPorousBaffle \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/DTCHullMoving",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6012,17 +6105,19 @@
       "hull": "omegaWallFunction"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/DTCHullMoving \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/DTCHullMoving \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/sloshingTank3D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6045,17 +6140,19 @@
       "wall": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/sloshingTank3D \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/sloshingTank3D \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/floatingObject",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun-parallel",
@@ -6089,17 +6186,19 @@
       "floatingObject": "calculated"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/floatingObject \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/floatingObject \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/angledDuct",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6126,17 +6225,19 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/angledDuct \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/angledDuct \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/DTCHullWave",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6178,17 +6279,19 @@
       "hull": "omegaWallFunction"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/DTCHullWave \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/DTCHullWave \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/capillaryRise",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6213,17 +6316,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/capillaryRise \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/capillaryRise \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/mixerVesselHorizontal2D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6248,17 +6353,19 @@
       "nonCouple": "movingWallSlipVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/mixerVesselHorizontal2D \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/mixerVesselHorizontal2D \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6283,17 +6390,19 @@
       "back": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/mixerVessel2DMRF \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/mixerVessel2DMRF \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/propeller",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6329,17 +6438,19 @@
       "nonCouple": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/propeller \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/propeller \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/cavitatingBullet",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -6369,17 +6480,19 @@
       "bullet": "fixedFluxPressure"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/cavitatingBullet \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/cavitatingBullet \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/testTubeMixer",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6403,17 +6516,19 @@
       "walls": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/testTubeMixer \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/testTubeMixer \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/waterChannel",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6445,17 +6560,19 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/waterChannel \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/waterChannel \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/damBreak/damBreak",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -6489,17 +6606,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/damBreak/damBreak \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/damBreak/damBreak \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/nozzleFlow2D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -6534,17 +6653,19 @@
       "back": "wedge"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/nozzleFlow2D \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/nozzleFlow2D \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/sloshingTank2D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6569,17 +6690,19 @@
       "walls": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "incompressibleVoF/sloshingTank2D \u2014 foamRun (transient, external)"
+    "description": "incompressibleVoF/sloshingTank2D \u2014 incompressibleVoF (multiphase, incompressible, transient, external)"
   },
   {
     "path": "incompressibleVoF/wave",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6617,17 +6740,19 @@
       "bottom": "noSlip"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/wave \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/wave \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/damBreakWithObstacle",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -6657,17 +6782,19 @@
       "walls": "uniformFixedValue"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/damBreakWithObstacle \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/damBreakWithObstacle \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/floatingObjectWaves",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6707,17 +6834,19 @@
       "floatingObject": "calculated"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/floatingObjectWaves \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/floatingObjectWaves \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/mixerVessel",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6754,17 +6883,19 @@
       "nonCouple": "zeroGradient"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/mixerVessel \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/mixerVessel \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/DTCHull",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allmesh",
@@ -6804,17 +6935,19 @@
       "hull": "omegaWallFunction"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleVoF/DTCHull \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleVoF/DTCHull \u2014 incompressibleVoF (multiphase, incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleVoF/weirOverflow",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6844,17 +6977,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/weirOverflow \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/weirOverflow \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/containerDischarge2D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -6881,17 +7016,19 @@
       "wall": "noSlip"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/containerDischarge2D \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/containerDischarge2D \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/wave3D",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6925,17 +7062,19 @@
       "bottom": "noSlip"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/wave3D \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/wave3D \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleVoF/forcedUpstreamWave",
-    "solver": "foamRun",
+    "solver": "incompressibleVoF",
     "version": "11",
     "files": [
       "Allrun",
@@ -6974,17 +7113,19 @@
       "bottom": "noSlip"
     },
     "physics_tags": [
+      "multiphase",
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "incompressibleVoF/forcedUpstreamWave \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleVoF/forcedUpstreamWave \u2014 incompressibleVoF (multiphase, incompressible, transient, blockMesh)"
   },
   {
     "path": "XiFluid/kivaTest",
-    "solver": "foamRun",
+    "solver": "XiFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7013,17 +7154,18 @@
     ],
     "boundary_patches": {},
     "physics_tags": [
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "XiFluid/kivaTest \u2014 foamRun (transient, external)"
+    "description": "XiFluid/kivaTest \u2014 XiFluid (compressible, transient, external)"
   },
   {
     "path": "shockFluid/wedge15Ma5",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7051,11 +7193,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/wedge15Ma5 \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/wedge15Ma5 \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/shockTube",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "createGraphs",
@@ -7085,11 +7227,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/shockTube \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/shockTube \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/movingCone",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "Allrun-parallel",
@@ -7126,11 +7268,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/movingCone \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/movingCone \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/LadenburgJet60psi",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "README",
@@ -7164,11 +7306,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/LadenburgJet60psi \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/LadenburgJet60psi \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/biconic25-55Run35",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "README",
@@ -7203,11 +7345,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/biconic25-55Run35 \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/biconic25-55Run35 \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/obliqueShock",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7234,11 +7376,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/obliqueShock \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/obliqueShock \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "shockFluid/forwardStep",
-    "solver": "foamRun",
+    "solver": "shockFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7266,7 +7408,7 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "shockFluid/forwardStep \u2014 foamRun (transient, blockMesh)"
+    "description": "shockFluid/forwardStep \u2014 shockFluid (transient, blockMesh)"
   },
   {
     "path": "potentialFoam/pitzDaily",
@@ -7330,7 +7472,7 @@
   },
   {
     "path": "incompressibleFluid/blockedChannel",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7354,17 +7496,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/blockedChannel \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/blockedChannel \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pipeCyclic",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7389,17 +7532,18 @@
       "walls": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/pipeCyclic \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/pipeCyclic \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/impeller",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7425,17 +7569,18 @@
       "nonCouple": "zeroGradient"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/impeller \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/impeller \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/windAroundBuildings",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7462,17 +7607,18 @@
       "wall": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/windAroundBuildings \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "incompressibleFluid/windAroundBuildings \u2014 incompressibleFluid (incompressible, steady, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/hopperParticles/hopperEmptying",
-    "solver": "foamRun",
+    "solver": "functions",
     "version": "11",
     "files": [
       "0/mu",
@@ -7503,11 +7649,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/hopperParticles/hopperEmptying \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/hopperParticles/hopperEmptying \u2014 functions (transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/hopperParticles/hopperInitialState",
-    "solver": "foamRun",
+    "solver": "functions",
     "version": "11",
     "files": [
       "0/U",
@@ -7535,11 +7681,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/hopperParticles/hopperInitialState \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/hopperParticles/hopperInitialState \u2014 functions (transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/offsetCylinder",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7560,17 +7706,18 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/offsetCylinder \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/offsetCylinder \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/cavity",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -7593,17 +7740,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/cavity \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/cavity \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pitzDailySteady",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -7631,17 +7779,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/pitzDailySteady \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/pitzDailySteady \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/turbineSiting",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -7673,17 +7822,18 @@
       "ground": "zeroGradient"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/turbineSiting \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "incompressibleFluid/turbineSiting \u2014 incompressibleFluid (incompressible, steady, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/roomResidenceTime",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7714,17 +7864,18 @@
       "outlet": "inletOutlet"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/roomResidenceTime \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/roomResidenceTime \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/porousBlockage",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -7745,13 +7896,14 @@
       "outlet": "pressureInletOutletVelocity"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/porousBlockage \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/porousBlockage \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/wingMotion/wingMotion_snappyHexMesh",
@@ -7778,7 +7930,7 @@
   },
   {
     "path": "incompressibleFluid/wingMotion/wingMotion2D_steady",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7802,17 +7954,18 @@
       "wing": "movingWallVelocity"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/wingMotion/wingMotion2D_steady \u2014 foamRun (steady, external)"
+    "description": "incompressibleFluid/wingMotion/wingMotion2D_steady \u2014 incompressibleFluid (incompressible, steady, external)"
   },
   {
     "path": "incompressibleFluid/wingMotion/wingMotion2D_transient",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "pointDisplacement",
@@ -7829,17 +7982,18 @@
     ],
     "boundary_patches": {},
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/wingMotion/wingMotion2D_transient \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/wingMotion/wingMotion2D_transient \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/movingCone",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun-parallel",
@@ -7870,17 +8024,18 @@
       "farField": "noSlip"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/movingCone \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/movingCone \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/planarPoiseuille",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -7905,17 +8060,18 @@
       "wall": "fixedValue"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/planarPoiseuille \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/planarPoiseuille \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/mixerVesselHorizontal2DParticles",
-    "solver": "foamRun",
+    "solver": "functions",
     "version": "11",
     "files": [
       "Allrun",
@@ -7945,11 +8101,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/mixerVesselHorizontal2DParticles \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/mixerVesselHorizontal2DParticles \u2014 functions (transient, external)"
   },
   {
     "path": "incompressibleFluid/planarContraction",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -7968,17 +8124,18 @@
       "wall": "fixedValue"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/planarContraction \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/planarContraction \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/motorBike/motorBike",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -8014,17 +8171,18 @@
       "proc.*": "processor"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/motorBike/motorBike \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "incompressibleFluid/motorBike/motorBike \u2014 incompressibleFluid (incompressible, steady, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/mixerVessel2DMRF",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8047,17 +8205,18 @@
       "back": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/mixerVessel2DMRF \u2014 foamRun (steady, external)"
+    "description": "incompressibleFluid/mixerVessel2DMRF \u2014 incompressibleFluid (incompressible, steady, external)"
   },
   {
     "path": "incompressibleFluid/cavityCoupledU",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -8079,17 +8238,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/cavityCoupledU \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/cavityCoupledU \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/propeller",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allmesh",
@@ -8122,17 +8282,18 @@
       "nonCouple": "zeroGradient"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/propeller \u2014 foamRun (transient, snappyHexMesh)"
+    "description": "incompressibleFluid/propeller \u2014 incompressibleFluid (incompressible, transient, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/rotor2D",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -8153,17 +8314,18 @@
       "freestream": "inletOutlet"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/rotor2D \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/rotor2D \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/planarCouette",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -8181,17 +8343,18 @@
       "bottomWall": "noSlip"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/planarCouette \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/planarCouette \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pitzDaily",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8215,17 +8378,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDaily \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/pitzDaily \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/pitzDailyPulse",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8241,17 +8405,18 @@
       "inlet": "uniformFixedValue"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDailyPulse \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/pitzDailyPulse \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/TJunction",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "README.txt",
@@ -8281,17 +8446,18 @@
       "defaultFaces": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/TJunction \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/TJunction \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/oscillatingInlet",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8317,17 +8483,18 @@
       "nonCouple.*": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/oscillatingInlet \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/oscillatingInlet \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pitzDailySteadyExperimentalInlet",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8356,17 +8523,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDailySteadyExperimentalInlet \u2014 foamRun (steady, external)"
+    "description": "incompressibleFluid/pitzDailySteadyExperimentalInlet \u2014 incompressibleFluid (incompressible, steady, external)"
   },
   {
     "path": "incompressibleFluid/TJunctionFan",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8395,17 +8563,18 @@
       "defaultFaces": "nutkWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/TJunctionFan \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/TJunctionFan \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/channel395",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8442,17 +8611,18 @@
       "inout2_half1": "cyclic"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/channel395 \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/channel395 \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/ductSecondaryFlow",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -8474,17 +8644,18 @@
       "leftWall": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/ductSecondaryFlow \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/ductSecondaryFlow \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pitzDailyLESDevelopedInlet",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/U",
@@ -8508,17 +8679,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/pitzDailyLESDevelopedInlet \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/pitzDailyLESDevelopedInlet \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/waveSubSurface",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8546,17 +8718,18 @@
       "(front|back)": "symmetryPlane"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/waveSubSurface \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/waveSubSurface \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/motorBikeSteady",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -8590,17 +8763,18 @@
       "motorBikeGroup": "noSlip"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/motorBikeSteady \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "incompressibleFluid/motorBikeSteady \u2014 incompressibleFluid (incompressible, steady, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/T3A",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "README",
@@ -8631,17 +8805,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/T3A \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/T3A \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/rotorDisk",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -8670,17 +8845,18 @@
       "slip.*": "slip"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "snappyHexMesh",
-    "description": "incompressibleFluid/rotorDisk \u2014 foamRun (steady, snappyHexMesh)"
+    "description": "incompressibleFluid/rotorDisk \u2014 incompressibleFluid (incompressible, steady, snappyHexMesh)"
   },
   {
     "path": "incompressibleFluid/flowWithOpenBoundary",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -8710,17 +8886,18 @@
       "empty": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/flowWithOpenBoundary \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/flowWithOpenBoundary \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/pitzDailyLTS",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8744,17 +8921,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDailyLTS \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/pitzDailyLTS \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/rotor2DSRF",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -8775,17 +8953,18 @@
       "freestream": "inletOutlet"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/rotor2DSRF \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/rotor2DSRF \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/mixerSRF",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "0/epsilon",
@@ -8811,17 +8990,18 @@
       "cyclic_half1": "cyclic"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/mixerSRF \u2014 foamRun (steady, blockMesh)"
+    "description": "incompressibleFluid/mixerSRF \u2014 incompressibleFluid (incompressible, steady, blockMesh)"
   },
   {
     "path": "incompressibleFluid/mixerVessel2D",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8844,17 +9024,18 @@
       "nonCouple": "zeroGradient"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/mixerVessel2D \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/mixerVessel2D \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/pitzDailyScalarTransport",
-    "solver": "foamRun",
+    "solver": "functions",
     "version": "11",
     "files": [
       "Allrun",
@@ -8885,11 +9066,11 @@
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDailyScalarTransport \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/pitzDailyScalarTransport \u2014 functions (transient, external)"
   },
   {
     "path": "incompressibleFluid/elipsekkLOmega",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -8919,17 +9100,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "incompressibleFluid/elipsekkLOmega \u2014 foamRun (transient, blockMesh)"
+    "description": "incompressibleFluid/elipsekkLOmega \u2014 incompressibleFluid (incompressible, transient, blockMesh)"
   },
   {
     "path": "incompressibleFluid/ballValve",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "createGraphs",
@@ -8960,17 +9142,18 @@
       "wall": "epsilonWallFunction"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/ballValve \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/ballValve \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/pitzDailyLES",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allrun",
@@ -8994,17 +9177,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/pitzDailyLES \u2014 foamRun (transient, external)"
+    "description": "incompressibleFluid/pitzDailyLES \u2014 incompressibleFluid (incompressible, transient, external)"
   },
   {
     "path": "incompressibleFluid/airFoil2D",
-    "solver": "foamRun",
+    "solver": "incompressibleFluid",
     "version": "11",
     "files": [
       "Allclean",
@@ -9032,17 +9216,18 @@
       "frontAndBack": "empty"
     },
     "physics_tags": [
+      "incompressible",
       "steady"
     ],
     "turbulence_model": null,
     "has_heat_transfer": false,
     "has_multiphase": false,
     "mesh_type": "external",
-    "description": "incompressibleFluid/airFoil2D \u2014 foamRun (steady, external)"
+    "description": "incompressibleFluid/airFoil2D \u2014 incompressibleFluid (incompressible, steady, external)"
   },
   {
     "path": "isothermalFluid/potentialFreeSurfaceOscillatingBox",
-    "solver": "foamRun",
+    "solver": "isothermalFluid",
     "version": "11",
     "files": [
       "extractHeightData",
@@ -9073,11 +9258,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "isothermalFluid/potentialFreeSurfaceOscillatingBox \u2014 foamRun (transient, blockMesh)"
+    "description": "isothermalFluid/potentialFreeSurfaceOscillatingBox \u2014 isothermalFluid (transient, blockMesh)"
   },
   {
     "path": "isothermalFluid/potentialFreeSurfaceMovingOscillatingBox",
-    "solver": "foamRun",
+    "solver": "isothermalFluid",
     "version": "11",
     "files": [
       "extractHeightData",
@@ -9108,11 +9293,11 @@
     "has_heat_transfer": true,
     "has_multiphase": false,
     "mesh_type": "blockMesh",
-    "description": "isothermalFluid/potentialFreeSurfaceMovingOscillatingBox \u2014 foamRun (transient, blockMesh)"
+    "description": "isothermalFluid/potentialFreeSurfaceMovingOscillatingBox \u2014 isothermalFluid (transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/climbingRod",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "README",
@@ -9145,17 +9330,19 @@
       "atmosphere": "pressureInletOutletVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleVoF/climbingRod \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleVoF/climbingRod \u2014 compressibleVoF (multiphase, compressible, transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/throttle",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9192,17 +9379,19 @@
       "frontBack": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleVoF/throttle \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleVoF/throttle \u2014 compressibleVoF (multiphase, compressible, transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/depthCharge2D",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9229,17 +9418,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleVoF/depthCharge2D \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleVoF/depthCharge2D \u2014 compressibleVoF (multiphase, compressible, transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/damBreak",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9275,17 +9466,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleVoF/damBreak \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleVoF/damBreak \u2014 compressibleVoF (multiphase, compressible, transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/sloshingTank2D",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9316,17 +9509,19 @@
       "walls": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "compressibleVoF/sloshingTank2D \u2014 foamRun (transient, external)"
+    "description": "compressibleVoF/sloshingTank2D \u2014 compressibleVoF (multiphase, compressible, transient, external)"
   },
   {
     "path": "compressibleVoF/depthCharge3D",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9353,17 +9548,19 @@
       "defaultFaces": "empty"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "blockMesh",
-    "description": "compressibleVoF/depthCharge3D \u2014 foamRun (transient, blockMesh)"
+    "description": "compressibleVoF/depthCharge3D \u2014 compressibleVoF (multiphase, compressible, transient, blockMesh)"
   },
   {
     "path": "compressibleVoF/ballValve",
-    "solver": "foamRun",
+    "solver": "compressibleVoF",
     "version": "11",
     "files": [
       "Allclean",
@@ -9397,12 +9594,14 @@
       "wall": "movingWallVelocity"
     },
     "physics_tags": [
+      "multiphase",
+      "compressible",
       "transient"
     ],
     "turbulence_model": null,
     "has_heat_transfer": true,
-    "has_multiphase": false,
+    "has_multiphase": true,
     "mesh_type": "external",
-    "description": "compressibleVoF/ballValve \u2014 foamRun (transient, external)"
+    "description": "compressibleVoF/ballValve \u2014 compressibleVoF (multiphase, compressible, transient, external)"
   }
 ]

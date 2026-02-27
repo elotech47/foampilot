@@ -80,8 +80,10 @@ class CheckMeshTool(Tool):
 
     def execute(self, case_dir: str, **kwargs: Any) -> ToolResult:
         if self._docker is None:
-            # Try to find a log file to parse instead
             return self._parse_existing_log(case_dir)
+
+        container_dir = self._to_container_path(case_dir)
+        log.info("check_mesh", host_path=case_dir, container_path=container_dir)
 
         try:
             from foampilot.docker.client import DockerClient
@@ -91,7 +93,7 @@ class CheckMeshTool(Tool):
             client = DockerClient(docker_sdk=self._docker)
             source_cmd = f"source /opt/openfoam{profile.VERSION}/etc/bashrc"
             result = client.exec_command(
-                f"bash -c '{source_cmd} && cd {case_dir} && checkMesh 2>&1'",
+                f"bash -c '{source_cmd} && cd {container_dir} && checkMesh 2>&1'",
                 timeout=120,
             )
             output = result.get("stdout", "") + result.get("stderr", "")
@@ -99,6 +101,18 @@ class CheckMeshTool(Tool):
             return ToolResult.ok(data=metrics, token_hint=100)
         except Exception as exc:
             return ToolResult.fail(f"checkMesh failed: {exc}")
+
+    def _to_container_path(self, path_str: str) -> str:
+        """Translate a host-side case path to the container-side equivalent."""
+        from foampilot import config as cfg
+        from foampilot.docker.volume import VolumeManager
+        vm = VolumeManager()
+        if path_str.startswith(vm._container_cases_dir):
+            return path_str
+        host_path = Path(path_str)
+        if not host_path.is_absolute():
+            host_path = cfg.PROJECT_ROOT / path_str
+        return vm.host_to_container(host_path)
 
     def _parse_existing_log(self, case_dir: str) -> ToolResult:
         """Try to parse an existing checkMesh log file."""

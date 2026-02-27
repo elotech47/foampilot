@@ -40,6 +40,11 @@ foampilot = "foampilot.__main__:main"
 [tool.hatch.build.targets.wheel]
 packages = ["src/foampilot"]
 
+[tool.uv]
+# Always install this package in editable mode so the src/ layout is resolved
+# correctly under Python 3.13, which does not reliably process hatchling's .pth files.
+package = true
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"

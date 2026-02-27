@@ -4,7 +4,9 @@ Coordinates the sequence: consult → setup → mesh → run → analyze.
 Manages state persistence and error recovery.
 """
 
+import json
 import uuid
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +16,80 @@ from foampilot import config
 from foampilot.core.state import SimulationPhase, SimulationState, StateManager
 
 log = structlog.get_logger(__name__)
+
+
+class _CaseLogger:
+    """Writes LLM reasoning and tool events to a per-session case.log file.
+
+    Intercepts the existing event_callback stream and appends human-readable
+    entries to case_dir/case.log. All other events are forwarded unchanged.
+    """
+
+    def __init__(self, case_dir: Path, upstream: Any | None = None) -> None:
+        self._path = case_dir / "case.log"
+        self._upstream = upstream
+        # Ensure the directory and file exist
+        case_dir.mkdir(parents=True, exist_ok=True)
+        self._path.touch()
+
+    def __call__(self, event: dict) -> None:
+        self._write(event)
+        if self._upstream:
+            self._upstream(event)
+
+    def _write(self, event: dict) -> None:
+        t = event.get("type", "")
+        d = event.get("data", {})
+        ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        line: str | None = None
+
+        if t == "phase_start":
+            line = f"\n{'='*60}\n[{ts}] PHASE: {d.get('phase','').upper()}\n{'='*60}"
+
+        elif t == "llm_response":
+            text = d.get("text", "").strip()
+            turn = d.get("turn", "?")
+            if text:
+                line = f"\n[{ts}] LLM Turn {turn}:\n{text}\n"
+
+        elif t == "tool_call":
+            tool = d.get("tool", "?")
+            inp = d.get("input", {})
+            inp_str = json.dumps(inp, indent=2) if isinstance(inp, dict) else str(inp)
+            line = f"\n[{ts}] TOOL CALL: {tool}\n{inp_str}"
+
+        elif t == "tool_result":
+            tool = d.get("tool", "?")
+            ok = d.get("success", False)
+            data = d.get("data", {})
+            status = "OK" if ok else "FAILED"
+            data_str = json.dumps(data, indent=2) if isinstance(data, dict) else str(data)
+            line = f"\n[{ts}] TOOL RESULT: {tool} [{status}]\n{data_str[:2000]}"
+
+        elif t == "session_start":
+            sid = d.get("session_id", "?")
+            req = d.get("request", "")
+            line = (
+                f"\n{'#'*60}\n"
+                f"# FoamPilot Session: {sid}\n"
+                f"# Started: {ts}\n"
+                f"# Request: {req}\n"
+                f"{'#'*60}\n"
+            )
+
+        elif t in ("session_complete", "session_error"):
+            if t == "session_error":
+                line = f"\n[{ts}] SESSION ERROR: {d.get('error','')}\n"
+            else:
+                line = f"\n[{ts}] SESSION COMPLETE\n"
+
+        if line is not None:
+            try:
+                with self._path.open("a", encoding="utf-8") as fh:
+                    fh.write(line + "\n")
+            except OSError:
+                pass  # Don't crash the agent over log write errors
 
 
 class Orchestrator:
@@ -35,6 +111,22 @@ class Orchestrator:
         self._event_cb = event_callback
         self._approval_cb = approval_callback
         self._session_id = str(uuid.uuid4())[:8]
+        self._docker = self._init_docker()
+
+    def _init_docker(self):
+        """Connect to the Docker daemon, handling macOS socket fallback."""
+        try:
+            from foampilot.docker.client import _connect_docker
+            client = _connect_docker()
+            log.info("docker_connected", session=self._session_id)
+            return client
+        except Exception as exc:
+            log.warning(
+                "docker_unavailable",
+                error=str(exc),
+                hint="Docker tools (blockMesh, solvers) will be disabled",
+            )
+            return None
 
     def _emit(self, event_type: str, data: dict) -> None:
         if self._event_cb:
@@ -51,6 +143,10 @@ class Orchestrator:
         """
         case_dir = self._cases_dir / f"case_{self._session_id}"
         state_manager = StateManager(case_dir)
+
+        # Attach a per-session case logger (writes to case_dir/case.log)
+        case_logger = _CaseLogger(case_dir=case_dir, upstream=self._event_cb)
+        self._event_cb = case_logger
 
         # Try to resume an existing session
         state = state_manager.load()
@@ -92,6 +188,7 @@ class Orchestrator:
             "event_callback": self._event_cb,
             "approval_callback": self._approval_cb,
         }
+        docker_kwargs = {**agent_kwargs, "docker_client": self._docker}
 
         # Phase 1: Consult
         if state.phase in (SimulationPhase.IDLE,):
@@ -126,7 +223,7 @@ class Orchestrator:
             state_manager.save(state)
             self._emit("phase_start", {"phase": "meshing"})
 
-            mesh = MeshAgent(**agent_kwargs)
+            mesh = MeshAgent(**docker_kwargs)
             mesh_result = mesh.run(case_dir)
             state.mesh_quality = mesh_result
             if not mesh_result.get("passed", False):
@@ -140,7 +237,7 @@ class Orchestrator:
             state_manager.save(state)
             self._emit("phase_start", {"phase": "running"})
 
-            run = RunAgent(**agent_kwargs)
+            run = RunAgent(**docker_kwargs)
             run_result = run.run(case_dir, state.simulation_spec)
             state.convergence_data = run_result
             if not run_result.get("converged", False):
@@ -153,7 +250,7 @@ class Orchestrator:
             state_manager.save(state)
             self._emit("phase_start", {"phase": "analyzing"})
 
-            analyze = AnalyzeAgent(**agent_kwargs)
+            analyze = AnalyzeAgent(**docker_kwargs)
             analyze.run(case_dir, state)
             state.set_phase(SimulationPhase.COMPLETE)
             state_manager.save(state)

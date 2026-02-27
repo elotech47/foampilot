@@ -14,21 +14,33 @@ def main() -> None:
     # Run a simulation interactively
     run_parser = subparsers.add_parser("run", help="Run a simulation from a natural language request")
     run_parser.add_argument("request", nargs="?", help="Simulation request (omit for interactive mode)")
+    run_parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Show DEBUG-level logs on the terminal (default: INFO only)",
+    )
 
     # Evaluate benchmarks
     eval_parser = subparsers.add_parser("eval", help="Run benchmark evaluation")
     eval_parser.add_argument("--case", help="Specific benchmark case to run")
     eval_parser.add_argument("--suite", choices=["tier1", "tier2", "tier3"], help="Benchmark tier")
+    eval_parser.add_argument("--verbose", "-v", action="store_true", help="Show DEBUG logs")
 
     # Build tutorial index
     index_parser = subparsers.add_parser("index", help="Build the tutorial index")
     index_parser.add_argument("--version", default="11", help="OpenFOAM version")
     index_parser.add_argument("--tutorials-path", help="Path to OpenFOAM tutorials directory")
+    index_parser.add_argument("--verbose", "-v", action="store_true", help="Show DEBUG logs")
 
     args = parser.parse_args()
 
+    # Configure logging before any foampilot imports use structlog
+    verbose = getattr(args, "verbose", False)
+    from foampilot.logging_setup import configure_logging
+    configure_logging(verbose=verbose)
+
     if args.command == "run" or args.command is None:
-        _run_terminal(getattr(args, "request", None))
+        _run_terminal(getattr(args, "request", None), verbose=verbose)
     elif args.command == "eval":
         _run_eval(args)
     elif args.command == "index":
@@ -38,10 +50,10 @@ def main() -> None:
         sys.exit(1)
 
 
-def _run_terminal(initial_request: str | None) -> None:
+def _run_terminal(initial_request: str | None, verbose: bool = False) -> None:
     """Launch the terminal REPL."""
     from foampilot.ui.terminal import TerminalUI
-    ui = TerminalUI()
+    ui = TerminalUI(verbose=verbose)
     ui.run(initial_request)
 
 

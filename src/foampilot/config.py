@@ -18,6 +18,10 @@ INDEX_DIR = Path(
     os.environ.get("FOAMPILOT_INDEX_DIR", SRC_ROOT / "index" / "data")
 )
 
+# Host-side path to the OpenFOAM tutorials directory.
+# Used by copy_tutorial to locate tutorial files on the host (not inside Docker).
+TUTORIALS_DIR = Path(os.environ.get("FOAMPILOT_TUTORIALS_DIR", PROJECT_ROOT / "OpenFOAM-11" / "tutorials"))
+
 # ── Anthropic API ──────────────────────────────────────────────────────────────
 ANTHROPIC_API_KEY: str = os.environ.get("ANTHROPIC_API_KEY", "")
 
@@ -42,6 +46,10 @@ PERMISSION_MODE: str = os.environ.get("FOAMPILOT_PERMISSION_MODE", "standard")
 OPENFOAM_VERSION: str = os.environ.get("OPENFOAM_VERSION", "11")
 OPENFOAM_DISTRIBUTION: str = os.environ.get("OPENFOAM_DISTRIBUTION", "foundation")
 OPENFOAM_CONTAINER: str = os.environ.get("OPENFOAM_CONTAINER", "foampilot-openfoam")
+
+# Path inside the OpenFOAM container where cases are mounted.
+# Must match the volume mount in docker-compose.yml (./cases:/home/openfoam/cases).
+CONTAINER_CASES_DIR: str = os.environ.get("FOAMPILOT_CONTAINER_CASES_DIR", "/home/openfoam/cases")
 
 # ── Context Window Sizes (token counts) ───────────────────────────────────────
 # sonnet-4-5 has a 200k token context window
