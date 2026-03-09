@@ -79,27 +79,67 @@ class ParseLogTool(Tool):
     description = (
         "Parse an OpenFOAM solver log file into structured convergence data: "
         "converged (bool), final residuals per field, continuity error, execution time, "
-        "and a human-readable diagnosis of any issues."
+        "and a human-readable diagnosis of any issues. "
+        "Pass the container path (e.g. /home/openfoam/cases/case_xxx/log.icoFoam)."
     )
     input_schema = {
         "type": "object",
         "properties": {
             "log_path": {
                 "type": "string",
-                "description": "Absolute path to the solver log file",
+                "description": "Path to the solver log file (container path preferred, e.g. /home/openfoam/cases/case_xxx/log.icoFoam)",
             },
         },
         "required": ["log_path"],
     }
     permission_level = PermissionLevel.AUTO
 
+    def __init__(self, docker_client: Any = None) -> None:
+        self._docker = docker_client
+
     def execute(self, log_path: str, **kwargs: Any) -> ToolResult:
-        path = Path(log_path)
-        if not path.exists():
-            return ToolResult.fail(f"Log file not found: {log_path}")
+        text = self._read_log(log_path)
+        if text is None:
+            return ToolResult.fail(
+                f"Log file not found: {log_path}. "
+                "Check that the solver ran and wrote a log file."
+            )
         try:
-            text = path.read_text(encoding="utf-8", errors="replace")
             result = parse_solver_log(text)
             return ToolResult.ok(data=result, token_hint=80)
         except Exception as exc:
             return ToolResult.fail(f"Failed to parse log: {exc}")
+
+    def _read_log(self, log_path: str) -> str | None:
+        """Read log content, preferring container exec over host file read."""
+        from foampilot.docker.volume import VolumeManager
+        vm = VolumeManager()
+
+        # Determine the container path
+        if log_path.startswith(vm._container_cases_dir):
+            container_path = log_path
+        else:
+            # Treat as a host path and translate
+            p = Path(log_path)
+            if not p.is_absolute():
+                from foampilot import config as cfg
+                p = (cfg.PROJECT_ROOT / log_path).resolve()
+            container_path = vm.host_to_container(p)
+
+        # Try reading via Docker exec (file lives inside the container)
+        if self._docker is not None:
+            try:
+                from foampilot.docker.client import DockerClient
+                client = DockerClient(docker_sdk=self._docker)
+                result = client.exec_command(f"cat {container_path}")
+                if result.get("exit_code", 1) == 0:
+                    return result.get("stdout", "")
+            except Exception as exc:
+                log.warning("parse_log_docker_read_failed", error=str(exc))
+
+        # Fallback: try reading directly from host filesystem
+        host_path = vm.container_to_host(container_path)
+        if host_path.exists():
+            return host_path.read_text(encoding="utf-8", errors="replace")
+
+        return None

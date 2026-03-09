@@ -63,8 +63,12 @@ class _CaseLogger:
             tool = d.get("tool", "?")
             ok = d.get("success", False)
             data = d.get("data", {})
+            error = d.get("error", "")
             status = "OK" if ok else "FAILED"
-            data_str = json.dumps(data, indent=2) if isinstance(data, dict) else str(data)
+            if ok:
+                data_str = json.dumps(data, indent=2) if isinstance(data, dict) else str(data)
+            else:
+                data_str = error or (json.dumps(data, indent=2) if isinstance(data, dict) else str(data))
             line = f"\n[{ts}] TOOL RESULT: {tool} [{status}]\n{data_str[:2000]}"
 
         elif t == "session_start":

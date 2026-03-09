@@ -1,9 +1,17 @@
 """Meshing subagent system prompt."""
 
+from pathlib import Path
+
 from foampilot.prompts.version_context import get_version_context
 
 _MESH_BASE = """\
 You are the FoamPilot MeshAgent. Your job is to generate and validate the computational mesh.
+
+## CRITICAL — PATH RULES
+- The case directory is: {case_dir}
+- ALWAYS pass this exact string as `case_dir` to every run_foam_cmd and check_mesh call.
+- NEVER use /workspace, ~, relative paths, or any other path.
+- NEVER try to discover or guess the path — it is given above.
 
 ## Workflow
 1. Use run_foam_cmd to run blockMesh (or snappyHexMesh for complex geometry)
@@ -35,5 +43,8 @@ Return a JSON object with mesh quality metrics and pass/fail status.
 """
 
 
-def get_mesh_prompt() -> str:
-    return _MESH_BASE.format(version_context=get_version_context())
+def get_mesh_prompt(case_dir: Path | str = "") -> str:
+    return _MESH_BASE.format(
+        case_dir=str(case_dir),
+        version_context=get_version_context(),
+    )

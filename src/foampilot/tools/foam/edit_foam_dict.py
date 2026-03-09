@@ -1,6 +1,7 @@
 """Surgical edits to OpenFOAM dictionary entries."""
 
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +13,34 @@ from foampilot.tools.base import Tool, ToolResult
 
 log = structlog.get_logger(__name__)
 
+# String patterns that must NOT be quoted in OpenFOAM dict files.
+# These are OpenFOAM-specific syntactic constructs, not word strings.
+_NO_QUOTE_PATTERNS = [
+    re.compile(r"^\["),              # Dimension sets:  [0 1 -1 0 0 0 0] 1e-5
+    re.compile(r"^uniform\s+"),      # uniform (0 0 0)  or  uniform 0
+    re.compile(r"^nonuniform\s+"),   # nonuniform fields
+    re.compile(r"^\("),              # Raw vector/list: (0 0 0)
+    re.compile(r"^[0-9eE+\-.]+$"),  # Plain numbers as strings
+]
+
+# Match bracket-vector notation [x, y, z] used by LLMs but invalid in OpenFOAM.
+# Only matches brackets whose content contains at least one comma — this preserves
+# OpenFOAM dimension sets like [0 2 -1 0 0 0 0] which must stay as brackets.
+_BRACKET_VEC_RE = re.compile(r"\[([^\[\]]*,[^\[\]]*)\]")
+
+
+def _normalize_foam_string(value: str) -> str:
+    """Normalise LLM-produced OpenFOAM strings to valid syntax.
+
+    Converts ``[x, y, z]`` → ``(x y z)`` so vectors are written correctly.
+    OpenFOAM uses parentheses for vectors/lists, not brackets.
+    """
+    def _to_paren(m: re.Match) -> str:
+        inner = re.sub(r",\s*", " ", m.group(1)).strip()
+        return f"({inner})"
+
+    return _BRACKET_VEC_RE.sub(_to_paren, value)
+
 
 def _foam_value_to_str(value: Any) -> str:
     """Convert a Python value back to OpenFOAM dictionary syntax."""
@@ -22,7 +51,14 @@ def _foam_value_to_str(value: Any) -> str:
     if isinstance(value, list):
         return "( " + " ".join(_foam_value_to_str(v) for v in value) + " )"
     if isinstance(value, str):
-        # Quote if it contains spaces or special characters
+        # Normalise bracket-vectors to parentheses first
+        value = _normalize_foam_string(value)
+        # Check if this value should NOT be quoted (OpenFOAM native syntax)
+        stripped = value.strip()
+        for pattern in _NO_QUOTE_PATTERNS:
+            if pattern.match(stripped):
+                return value  # Return as-is — quoting would break OpenFOAM parsing
+        # Only quote plain word/label strings that contain spaces or special chars
         if " " in value or any(c in value for c in "(){};\n"):
             return f'"{value}"'
         return value
