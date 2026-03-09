@@ -8,6 +8,7 @@ from typing import Any
 
 import structlog
 
+from foampilot.agents.base_agent import BaseAgent
 from foampilot.core.subagent import SubagentConfig, run_subagent
 from foampilot.prompts.consult import get_consult_prompt
 from foampilot.tools.registry import ToolRegistry
@@ -15,21 +16,8 @@ from foampilot.tools.registry import ToolRegistry
 log = structlog.get_logger(__name__)
 
 
-class ConsultAgent:
-    """Analyzes a user's simulation request and produces a structured SimulationSpec.
-
-    Args:
-        event_callback: Optional callable for UI event streaming.
-        approval_callback: Called for APPROVE-level tool calls.
-    """
-
-    def __init__(
-        self,
-        event_callback: Any | None = None,
-        approval_callback: Any | None = None,
-    ) -> None:
-        self._event_cb = event_callback
-        self._approval_cb = approval_callback
+class ConsultAgent(BaseAgent):
+    """Analyzes a user's simulation request and produces a structured SimulationSpec."""
 
     def run(self, user_request: str) -> dict:
         """Run consultation for the given user request.

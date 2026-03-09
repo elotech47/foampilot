@@ -7,6 +7,7 @@ from typing import Any
 
 import structlog
 
+from foampilot.agents.base_agent import BaseAgent
 from foampilot.core.subagent import SubagentConfig, run_subagent
 from foampilot.prompts.analyze import get_analyze_prompt
 from foampilot.tools.foam.extract_data import ExtractDataTool
@@ -18,21 +19,8 @@ from foampilot.tools.viz.plot_residuals import PlotResidualsTool
 log = structlog.get_logger(__name__)
 
 
-class AnalyzeAgent:
-    """Post-processes simulation results, validates physics, and generates plots.
-
-    Args:
-        event_callback: Optional callable for UI event streaming.
-        approval_callback: Called for APPROVE-level tool calls.
-    """
-
-    def __init__(
-        self,
-        event_callback: Any | None = None,
-        approval_callback: Any | None = None,
-    ) -> None:
-        self._event_cb = event_callback
-        self._approval_cb = approval_callback
+class AnalyzeAgent(BaseAgent):
+    """Post-processes simulation results, validates physics, and generates plots."""
 
     def run(self, case_dir: Path, state: Any) -> dict:
         """Run post-processing and analysis for the completed simulation.
@@ -46,7 +34,7 @@ class AnalyzeAgent:
         """
         tools = {
             "extract_data": ExtractDataTool(),
-            "parse_log": ParseLogTool(),
+            "parse_log": ParseLogTool(docker_client=self._docker),
             "read_foam_file": ReadFoamFileTool(),
             "plot_residuals": PlotResidualsTool(),
             "plot_field": PlotFieldTool(),

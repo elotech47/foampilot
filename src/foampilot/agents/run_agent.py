@@ -9,6 +9,7 @@ from typing import Any
 
 import structlog
 
+from foampilot.agents.base_agent import BaseAgent
 from foampilot.core.subagent import SubagentConfig, run_subagent
 from foampilot.prompts.run import get_run_prompt
 from foampilot.tools.foam.edit_foam_dict import EditFoamDictTool
@@ -19,24 +20,8 @@ from foampilot.tools.foam.run_foam_cmd import RunFoamCmdTool
 log = structlog.get_logger(__name__)
 
 
-class RunAgent:
-    """Executes the OpenFOAM solver and monitors convergence.
-
-    Args:
-        docker_client: Docker client for running commands.
-        event_callback: Optional callable for UI event streaming.
-        approval_callback: Called for APPROVE-level tool calls.
-    """
-
-    def __init__(
-        self,
-        docker_client: Any | None = None,
-        event_callback: Any | None = None,
-        approval_callback: Any | None = None,
-    ) -> None:
-        self._docker = docker_client
-        self._event_cb = event_callback
-        self._approval_cb = approval_callback
+class RunAgent(BaseAgent):
+    """Executes the OpenFOAM solver and monitors convergence."""
 
     def run(self, case_dir: Path, simulation_spec: dict) -> dict:
         """Execute the solver and return convergence results.
@@ -52,14 +37,14 @@ class RunAgent:
 
         tools = {
             "run_foam_cmd": RunFoamCmdTool(docker_client=self._docker),
-            "parse_log": ParseLogTool(),
+            "parse_log": ParseLogTool(docker_client=self._docker),
             "read_foam_file": ReadFoamFileTool(),
             "edit_foam_dict": EditFoamDictTool(),
         }
 
         cfg = SubagentConfig(
             name="run",
-            system_prompt=get_run_prompt(),
+            system_prompt=get_run_prompt(case_dir=case_dir.resolve()),
             tools=tools,
             max_turns=20,
             event_callback=self._event_cb,

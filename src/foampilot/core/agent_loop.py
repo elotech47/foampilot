@@ -115,7 +115,10 @@ class AgentLoop:
 
         result = tool.execute(**tool_input)
 
-        self._emit("tool_result", {"tool": tool_name, "success": result.success, "data": result.data})
+        self._emit("tool_result", {
+            "tool": tool_name, "success": result.success,
+            "data": result.data, "error": result.error,
+        })
 
         content = result.data if result.success else f"Error: {result.error}"
         if isinstance(content, dict):

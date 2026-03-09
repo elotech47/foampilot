@@ -10,4 +10,6 @@ __pycache__/
 *.pyz
 .venv/
 development.md
+.DS_Store
 *.docx
+logs/

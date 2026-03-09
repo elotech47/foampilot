@@ -7,6 +7,7 @@ from typing import Any
 
 import structlog
 
+from foampilot.agents.base_agent import BaseAgent
 from foampilot.core.subagent import SubagentConfig, run_subagent
 from foampilot.prompts.mesh import get_mesh_prompt
 from foampilot.tools.foam.check_mesh import CheckMeshTool
@@ -18,24 +19,8 @@ from foampilot.tools.general.read_file import ReadFileTool
 log = structlog.get_logger(__name__)
 
 
-class MeshAgent:
-    """Generates and validates the computational mesh for a case.
-
-    Args:
-        docker_client: Docker client for running commands.
-        event_callback: Optional callable for UI event streaming.
-        approval_callback: Called for APPROVE-level tool calls.
-    """
-
-    def __init__(
-        self,
-        docker_client: Any | None = None,
-        event_callback: Any | None = None,
-        approval_callback: Any | None = None,
-    ) -> None:
-        self._docker = docker_client
-        self._event_cb = event_callback
-        self._approval_cb = approval_callback
+class MeshAgent(BaseAgent):
+    """Generates and validates the computational mesh for a case."""
 
     def run(self, case_dir: Path) -> dict:
         """Generate and validate the mesh for the given case directory.
@@ -56,7 +41,7 @@ class MeshAgent:
 
         cfg = SubagentConfig(
             name="mesh",
-            system_prompt=get_mesh_prompt(),
+            system_prompt=get_mesh_prompt(case_dir=case_dir.resolve()),
             tools=tools,
             max_turns=20,
             event_callback=self._event_cb,
