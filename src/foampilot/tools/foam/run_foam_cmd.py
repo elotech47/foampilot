@@ -1,14 +1,10 @@
 """Execute OpenFOAM commands inside the Docker container."""
 
-import json
 import re
-import time
-from pathlib import Path
 from typing import Any
 
 import structlog
 
-from foampilot import config
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
 
@@ -40,7 +36,7 @@ class RunFoamCmdTool(Tool):
             },
             "case_dir": {
                 "type": "string",
-                "description": "Absolute path to the case directory inside the container",
+                "description": "Path to the case directory. Use the exact path given in your system prompt.",
             },
             "timeout": {
                 "type": "integer",
@@ -86,26 +82,22 @@ class RunFoamCmdTool(Tool):
                 "Docker client not available. Cannot execute OpenFOAM commands."
             )
 
-        container_dir = self._to_container_path(case_dir)
+        from foampilot.docker.volume import VolumeManager
+        container_dir = VolumeManager().to_container_path(case_dir)
         log.info("run_foam_cmd", command=command, host_path=case_dir, container_path=container_dir)
 
         try:
             return self._run_in_docker(command, container_dir, timeout, log_file, profile)
         except Exception as exc:
+            if "404" in str(exc) or "No such container" in str(exc):
+                log.warning("container_not_running", error=str(exc), hint="Attempting auto-start")
+                try:
+                    from foampilot.docker.manager import ContainerManager
+                    ContainerManager(docker_sdk=self._docker).ensure_running()
+                    return self._run_in_docker(command, container_dir, timeout, log_file, profile)
+                except Exception as retry_exc:
+                    return ToolResult.fail(f"Docker execution failed after auto-start retry: {retry_exc}")
             return ToolResult.fail(f"Docker execution failed: {exc}")
-
-    def _to_container_path(self, path_str: str) -> str:
-        """Translate a host-side case path to the container-side equivalent."""
-        from foampilot import config as cfg
-        from foampilot.docker.volume import VolumeManager
-        vm = VolumeManager()
-        # Already a container path — leave it alone
-        if path_str.startswith(vm._container_cases_dir):
-            return path_str
-        host_path = Path(path_str)
-        if not host_path.is_absolute():
-            host_path = cfg.PROJECT_ROOT / path_str
-        return vm.host_to_container(host_path)
 
     def _run_in_docker(self, command, case_dir, timeout, log_file, profile):
         from foampilot.docker.client import DockerClient

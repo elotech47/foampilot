@@ -163,6 +163,7 @@ class AgentLoop:
                 response = self._call_llm(messages, turn)
             except Exception as exc:
                 log.error("llm_call_failed", turn=turn, error=str(exc))
+                self._emit("llm_error", {"turn": turn, "error": str(exc)})
                 stopped_reason = "error"
                 final_response = f"LLM call failed: {exc}"
                 break

@@ -7,6 +7,7 @@ from typing import Any
 
 import structlog
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.index.parser import FoamFileParser, parse_foam_file
 from foampilot.tools.base import Tool, ToolResult
@@ -75,31 +76,103 @@ class EditFoamDictTool(Tool):
     description = (
         "Edit a specific key-value entry in an OpenFOAM dictionary file. "
         "Use dot-notation for nested keys (e.g., 'SIMPLE.nNonOrthogonalCorrectors', "
-        "'boundaryField.inlet.value'). Returns the before and after values."
+        "'boundaryField.inlet.value'). "
+        "Set action='rename_key' to rename a top-level block (e.g. PIMPLE→PISO). "
+        "Set action='delete_key' to remove a key entirely."
     )
     input_schema = {
         "type": "object",
         "properties": {
             "path": {
                 "type": "string",
-                "description": "Absolute path to the OpenFOAM dictionary file",
+                "description": "Path to the OpenFOAM dictionary file.",
             },
             "key_path": {
                 "type": "string",
                 "description": "Dot-notation path to the key (e.g. 'SIMPLE.nNonOrthogonalCorrectors')",
             },
             "new_value": {
-                "description": "New value to set (string, number, boolean, or list)",
+                "description": "New value to set (string, number, boolean, or list). "
+                "For action='rename_key', this is the new key name. "
+                "For action='delete_key', this is ignored.",
+            },
+            "action": {
+                "type": "string",
+                "enum": ["set", "rename_key", "delete_key"],
+                "description": "Action to perform. Default 'set' edits the value. "
+                "'rename_key' renames the key itself (e.g. PIMPLE→PISO). "
+                "'delete_key' removes the key and its value/block.",
+                "default": "set",
             },
         },
-        "required": ["path", "key_path", "new_value"],
+        "required": ["path", "key_path"],
     }
     permission_level = PermissionLevel.NOTIFY
 
-    def execute(self, path: str, key_path: str, new_value: Any, **kwargs: Any) -> ToolResult:
-        file_path = Path(path)
+    def execute(self, path: str, key_path: str, new_value: Any = None, action: str = "set", **kwargs: Any) -> ToolResult:
+        if action == "rename_key":
+            return self._rename_key(path, key_path, new_value)
+        if action == "delete_key":
+            return self._delete_key(path, key_path)
+        if new_value is None:
+            return ToolResult.fail("new_value is required for action='set'")
+        return self._set_value(path, key_path, new_value)
+
+    def _rename_key(self, path: str, key_path: str, new_key_name: Any) -> ToolResult:
+        """Rename a key in the file text (e.g. PIMPLE → PISO)."""
+        if not new_key_name or not isinstance(new_key_name, str):
+            return ToolResult.fail("new_value must be the new key name (string) for rename_key")
+
+        file_path = resolve_host_path(path)
         if not file_path.exists():
-            return ToolResult.fail(f"File not found: {path}")
+            return ToolResult.fail(f"File not found: {path} (resolved to {file_path})")
+
+        text = file_path.read_text()
+        old_key = key_path.split(".")[-1]
+
+        # Match the key as a standalone word (block header or key-value entry)
+        pattern = rf"\b{re.escape(old_key)}\b"
+        new_text, count = re.subn(pattern, new_key_name, text, count=1)
+
+        if count == 0:
+            return ToolResult.fail(f"Key '{old_key}' not found in {path}")
+
+        file_path.write_text(new_text)
+        log.info("foam_dict_key_renamed", path=path, old_key=old_key, new_key=new_key_name)
+        return ToolResult.ok(data={"path": path, "old_key": old_key, "new_key": new_key_name, "action": "rename_key"})
+
+    def _delete_key(self, path: str, key_path: str) -> ToolResult:
+        """Delete a key-value entry or block from the file."""
+        file_path = resolve_host_path(path)
+        if not file_path.exists():
+            return ToolResult.fail(f"File not found: {path} (resolved to {file_path})")
+
+        text = file_path.read_text()
+        leaf_key = key_path.split(".")[-1]
+
+        # Strip quotes for matching
+        search_key = leaf_key
+        if search_key.startswith('"') and search_key.endswith('"'):
+            search_key = search_key[1:-1]
+
+        # Try to delete a "key value;" line
+        quoted_pattern = rf'^\s*"{re.escape(search_key)}"\s+[^;{{}}]*;\s*$'
+        plain_pattern = rf"^\s*\b{re.escape(search_key)}\b\s+[^;{{}}]*;\s*$"
+        new_text = re.sub(quoted_pattern, "", text, count=1, flags=re.MULTILINE)
+        if new_text == text:
+            new_text = re.sub(plain_pattern, "", text, count=1, flags=re.MULTILINE)
+
+        if new_text == text:
+            return ToolResult.fail(f"Key '{leaf_key}' not found in {path} for deletion")
+
+        file_path.write_text(new_text)
+        log.info("foam_dict_key_deleted", path=path, key=leaf_key)
+        return ToolResult.ok(data={"path": path, "key_path": key_path, "action": "delete_key"})
+
+    def _set_value(self, path: str, key_path: str, new_value: Any) -> ToolResult:
+        file_path = resolve_host_path(path)
+        if not file_path.exists():
+            return ToolResult.fail(f"File not found: {path} (resolved to {file_path})")
 
         try:
             foam = parse_foam_file(file_path)
@@ -139,14 +212,24 @@ class EditFoamDictTool(Tool):
         import re
 
         text = file_path.read_text()
-        # Get the leaf key name
         leaf_key = key_path.split(".")[-1]
         foam_val = _foam_value_to_str(new_value)
 
-        # Try to replace: "<leaf_key>  <anything>;" with "<leaf_key>  <new_value>;"
-        pattern = rf"(\b{re.escape(leaf_key)}\s+)[^;{{}}]+?(;)"
-        replacement = rf"\g<1>{foam_val}\2"
-        new_text, count = re.subn(pattern, replacement, text, count=1)
+        # Strip surrounding quotes from the key (OpenFOAM regex keys like
+        # "(U|k|epsilon|omega|R|nuTilda)" are stored with quotes in parsed form).
+        search_key = leaf_key
+        if search_key.startswith('"') and search_key.endswith('"'):
+            search_key = search_key[1:-1]
+
+        # Try quoted form first (as it appears in the actual file text)
+        quoted_key = f'"{search_key}"'
+        pattern_quoted = rf'({re.escape(quoted_key)}\s+)[^;{{}}]+?(;)'
+        new_text, count = re.subn(pattern_quoted, rf"\g<1>{foam_val}\2", text, count=1)
+
+        if count == 0:
+            # Try unquoted (plain keyword)
+            pattern_plain = rf"(\b{re.escape(search_key)}\s+)[^;{{}}]+?(;)"
+            new_text, count = re.subn(pattern_plain, rf"\g<1>{foam_val}\2", text, count=1)
 
         if count == 0:
             raise ValueError(f"Key '{leaf_key}' not found in file text for regex replacement")

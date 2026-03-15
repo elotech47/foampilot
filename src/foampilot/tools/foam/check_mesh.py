@@ -68,7 +68,7 @@ class CheckMeshTool(Tool):
         "properties": {
             "case_dir": {
                 "type": "string",
-                "description": "Absolute path to the case directory",
+                "description": "Path to the case directory. Use the exact path given in your system prompt.",
             },
         },
         "required": ["case_dir"],
@@ -82,7 +82,8 @@ class CheckMeshTool(Tool):
         if self._docker is None:
             return self._parse_existing_log(case_dir)
 
-        container_dir = self._to_container_path(case_dir)
+        from foampilot.docker.volume import VolumeManager
+        container_dir = VolumeManager().to_container_path(case_dir)
         log.info("check_mesh", host_path=case_dir, container_path=container_dir)
 
         try:
@@ -101,18 +102,6 @@ class CheckMeshTool(Tool):
             return ToolResult.ok(data=metrics, token_hint=100)
         except Exception as exc:
             return ToolResult.fail(f"checkMesh failed: {exc}")
-
-    def _to_container_path(self, path_str: str) -> str:
-        """Translate a host-side case path to the container-side equivalent."""
-        from foampilot import config as cfg
-        from foampilot.docker.volume import VolumeManager
-        vm = VolumeManager()
-        if path_str.startswith(vm._container_cases_dir):
-            return path_str
-        host_path = Path(path_str)
-        if not host_path.is_absolute():
-            host_path = cfg.PROJECT_ROOT / path_str
-        return vm.host_to_container(host_path)
 
     def _parse_existing_log(self, case_dir: str) -> ToolResult:
         """Try to parse an existing checkMesh log file."""

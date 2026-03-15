@@ -50,6 +50,30 @@ class FoundationV11(VersionProfile):
         "porous_steady": "porousSimpleFoam",
     }
 
+    SOLVER_ALGORITHM: dict[str, str] = {
+        "icoFoam": "PISO",
+        "pisoFoam": "PISO",
+        "simpleFoam": "SIMPLE",
+        "porousSimpleFoam": "SIMPLE",
+        "SRFSimpleFoam": "SIMPLE",
+        "pimpleFoam": "PIMPLE",
+        "SRFPimpleFoam": "PIMPLE",
+        "rhoSimpleFoam": "SIMPLE",
+        "rhoPimpleFoam": "PIMPLE",
+        "rhoCentralFoam": "PIMPLE",
+        "sonicFoam": "PISO",
+        "buoyantSimpleFoam": "SIMPLE",
+        "buoyantPimpleFoam": "PIMPLE",
+        "chtMultiRegionSimpleFoam": "SIMPLE",
+        "chtMultiRegionFoam": "PIMPLE",
+        "interFoam": "PIMPLE",
+        "compressibleInterFoam": "PIMPLE",
+        "multiphaseInterFoam": "PIMPLE",
+        "driftFluxFoam": "PIMPLE",
+        "reactingFoam": "PIMPLE",
+        "XiFoam": "PIMPLE",
+    }
+
     TURBULENCE_MODELS = [
         "kEpsilon",
         "kOmegaSST",
@@ -216,4 +240,10 @@ class FoundationV11(VersionProfile):
         "v11 uses 'turbulenceModel' keyword in turbulenceProperties, not 'RASModel'",
         "v11 walls use noSlip BC for velocity, not fixedValue (0 0 0) in newer tutorial style",
         "v11 fvSolution SIMPLE dict uses 'nNonOrthogonalCorrectors', not 'nCorrectors'",
+        "icoFoam REQUIRES a PISO block in fvSolution (NOT PIMPLE or SIMPLE)",
+        "simpleFoam REQUIRES a SIMPLE block in fvSolution (NOT PIMPLE or PISO)",
+        "pimpleFoam REQUIRES a PIMPLE block in fvSolution (NOT SIMPLE or PISO)",
+        "Tutorials under incompressibleFluid/ use modular solver format — when adapting for v11 legacy solvers, "
+        "remove the 'solver' keyword from controlDict, change 'application' to the actual solver name, "
+        "and rename the algorithm block in fvSolution to match (see SOLVER_ALGORITHM mapping)",
     ]

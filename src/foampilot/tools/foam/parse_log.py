@@ -79,15 +79,14 @@ class ParseLogTool(Tool):
     description = (
         "Parse an OpenFOAM solver log file into structured convergence data: "
         "converged (bool), final residuals per field, continuity error, execution time, "
-        "and a human-readable diagnosis of any issues. "
-        "Pass the container path (e.g. /home/openfoam/cases/case_xxx/log.icoFoam)."
+        "and a human-readable diagnosis of any issues."
     )
     input_schema = {
         "type": "object",
         "properties": {
             "log_path": {
                 "type": "string",
-                "description": "Path to the solver log file (container path preferred, e.g. /home/openfoam/cases/case_xxx/log.icoFoam)",
+                "description": "Path to the solver log file. Use <case_dir>/log.<solver> where case_dir is the path from your system prompt.",
             },
         },
         "required": ["log_path"],
@@ -114,17 +113,7 @@ class ParseLogTool(Tool):
         """Read log content, preferring container exec over host file read."""
         from foampilot.docker.volume import VolumeManager
         vm = VolumeManager()
-
-        # Determine the container path
-        if log_path.startswith(vm._container_cases_dir):
-            container_path = log_path
-        else:
-            # Treat as a host path and translate
-            p = Path(log_path)
-            if not p.is_absolute():
-                from foampilot import config as cfg
-                p = (cfg.PROJECT_ROOT / log_path).resolve()
-            container_path = vm.host_to_container(p)
+        container_path = vm.to_container_path(log_path)
 
         # Try reading via Docker exec (file lives inside the container)
         if self._docker is not None:

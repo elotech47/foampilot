@@ -61,5 +61,13 @@ def run_subagent(cfg: SubagentConfig, task: str) -> AgentLoopResult:
         name=cfg.name,
         turns=result.turn_count,
         stopped_reason=result.stopped_reason,
+        token_usage=result.token_summary,
     )
+
+    if cfg.event_callback:
+        cfg.event_callback({
+            "type": "phase_token_summary",
+            "data": {"phase": cfg.name, **result.token_summary},
+        })
+
     return result

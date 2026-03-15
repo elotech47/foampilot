@@ -82,6 +82,31 @@ class _CaseLogger:
                 f"{'#'*60}\n"
             )
 
+        elif t == "phase_token_summary":
+            phase = d.get("phase", "?")
+            inp = d.get("total_input_tokens", 0)
+            out = d.get("total_output_tokens", 0)
+            cost = d.get("total_cost_usd", 0.0)
+            turns = d.get("turns", "?")
+            line = (
+                f"\n[{ts}] TOKEN USAGE ({phase}): "
+                f"{inp:,} input + {out:,} output tokens, "
+                f"${cost:.4f}, {turns} turns"
+            )
+
+        elif t == "session_token_summary":
+            inp = d.get("total_input_tokens", 0)
+            out = d.get("total_output_tokens", 0)
+            cost = d.get("total_cost_usd", 0.0)
+            phases = d.get("phases", {})
+            line = (
+                f"\n{'─'*60}\n"
+                f"[{ts}] TOTAL TOKEN USAGE: "
+                f"{inp:,} input + {out:,} output tokens, "
+                f"${cost:.4f} across {len(phases)} phases\n"
+                f"{'─'*60}"
+            )
+
         elif t in ("session_complete", "session_error"):
             if t == "session_error":
                 line = f"\n[{ts}] SESSION ERROR: {d.get('error','')}\n"
@@ -94,6 +119,30 @@ class _CaseLogger:
                     fh.write(line + "\n")
             except Exception:
                 pass  # silently ignore — never crash the agent over a log write
+
+
+class _TokenAccumulator:
+    """Collects token usage from phase_token_summary events."""
+
+    def __init__(self) -> None:
+        self.phases: dict[str, dict] = {}
+        self.total_input_tokens: int = 0
+        self.total_output_tokens: int = 0
+        self.total_cost_usd: float = 0.0
+
+    def record(self, phase: str, summary: dict) -> None:
+        self.phases[phase] = summary
+        self.total_input_tokens += summary.get("total_input_tokens", 0)
+        self.total_output_tokens += summary.get("total_output_tokens", 0)
+        self.total_cost_usd += summary.get("total_cost_usd", 0.0)
+
+    def summary(self) -> dict:
+        return {
+            "phases": self.phases,
+            "total_input_tokens": self.total_input_tokens,
+            "total_output_tokens": self.total_output_tokens,
+            "total_cost_usd": round(self.total_cost_usd, 4),
+        }
 
 
 class Orchestrator:
@@ -115,17 +164,17 @@ class Orchestrator:
         self._event_cb = event_callback
         self._approval_cb = approval_callback
         self._session_id = str(uuid.uuid4())[:8]
+        self._token_acc = _TokenAccumulator()
         self._docker = self._init_docker()
         # Set by TerminalUI before run() so ClarifyAgent can print to the real console
         self._console_ref: Any = None
 
     def _init_docker(self):
-        """Connect to the Docker daemon, handling macOS socket fallback."""
+        """Connect to the Docker daemon and ensure the container is running."""
         try:
             from foampilot.docker.client import _connect_docker
             client = _connect_docker()
             log.info("docker_connected", session=self._session_id)
-            return client
         except Exception as exc:
             log.warning(
                 "docker_unavailable",
@@ -134,9 +183,30 @@ class Orchestrator:
             )
             return None
 
+        try:
+            from foampilot.docker.manager import ContainerManager
+            ContainerManager(docker_sdk=client).ensure_running()
+            log.info("docker_container_ready", session=self._session_id)
+        except Exception as exc:
+            log.warning(
+                "docker_container_not_ready",
+                error=str(exc),
+                hint="Container will be auto-started on first foam command",
+            )
+
+        return client
+
     def _emit(self, event_type: str, data: dict) -> None:
         if self._event_cb:
             self._event_cb({"type": event_type, "data": data})
+
+    def _intercept_event(self, event: dict) -> None:
+        """Intercept events to capture token summaries before forwarding."""
+        if event.get("type") == "phase_token_summary":
+            d = event.get("data", {})
+            self._token_acc.record(d.get("phase", "unknown"), d)
+        if self._event_cb:
+            self._event_cb(event)
 
     def run(
         self,
@@ -183,6 +253,10 @@ class Orchestrator:
             state_manager.save(state)
             self._emit("session_error", {"error": str(exc)})
 
+        state.token_usage = self._token_acc.summary()
+        state_manager.save(state)
+        self._emit("session_token_summary", state.token_usage)
+
         return state
 
     def _run_phases(
@@ -203,7 +277,7 @@ class Orchestrator:
         from foampilot.agents.analyze_agent import AnalyzeAgent
 
         agent_kwargs = {
-            "event_callback": self._event_cb,
+            "event_callback": self._intercept_event,
             "approval_callback": self._approval_cb,
         }
         docker_kwargs = {**agent_kwargs, "docker_client": self._docker}
@@ -284,6 +358,16 @@ class Orchestrator:
                 for issue in mesh_result.get("issues", []):
                     state.add_issue(f"Mesh: {issue}")
             state_manager.save(state)
+
+        # Gate check: mesh must exist before running the solver
+        if state.phase == SimulationPhase.MESHING:
+            poly_mesh = case_dir / "constant" / "polyMesh" / "points"
+            if not poly_mesh.exists():
+                state.add_issue("Mesh generation failed — no polyMesh/points found on disk")
+                state.set_phase(SimulationPhase.ERROR)
+                state_manager.save(state)
+                self._emit("session_error", {"error": "Mesh generation failed — no polyMesh/points"})
+                return state
 
         # Phase 4: Run
         if state.phase == SimulationPhase.MESHING:

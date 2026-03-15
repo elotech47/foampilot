@@ -1,10 +1,10 @@
 """Write arbitrary files to the filesystem."""
 
-from pathlib import Path
 from typing import Any
 
 import structlog
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
 
@@ -19,7 +19,7 @@ class WriteFileTool(Tool):
     input_schema = {
         "type": "object",
         "properties": {
-            "path": {"type": "string", "description": "Absolute path to write"},
+            "path": {"type": "string", "description": "Path to write."},
             "content": {"type": "string", "description": "Text content to write"},
         },
         "required": ["path", "content"],
@@ -27,7 +27,7 @@ class WriteFileTool(Tool):
     permission_level = PermissionLevel.NOTIFY
 
     def execute(self, path: str, content: str, **kwargs: Any) -> ToolResult:
-        file_path = Path(path)
+        file_path = resolve_host_path(path)
         try:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             existed = file_path.exists()

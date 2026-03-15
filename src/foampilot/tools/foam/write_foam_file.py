@@ -1,10 +1,10 @@
 """Write a complete OpenFOAM dictionary file."""
 
-from pathlib import Path
 from typing import Any
 
 import structlog
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
 
@@ -25,7 +25,7 @@ class WriteFoamFileTool(Tool):
         "properties": {
             "path": {
                 "type": "string",
-                "description": "Absolute path to write the file",
+                "description": "Path to write the file.",
             },
             "content": {
                 "type": "string",
@@ -37,7 +37,7 @@ class WriteFoamFileTool(Tool):
     permission_level = PermissionLevel.NOTIFY
 
     def execute(self, path: str, content: str, **kwargs: Any) -> ToolResult:
-        file_path = Path(path)
+        file_path = resolve_host_path(path)
         try:
             file_path.parent.mkdir(parents=True, exist_ok=True)
             existed = file_path.exists()

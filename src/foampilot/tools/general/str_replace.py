@@ -1,10 +1,10 @@
 """Generic string replacement in files."""
 
-from pathlib import Path
 from typing import Any
 
 import structlog
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
 
@@ -27,7 +27,7 @@ class StrReplaceTool(Tool):
     input_schema = {
         "type": "object",
         "properties": {
-            "path": {"type": "string", "description": "Absolute path to the file"},
+            "path": {"type": "string", "description": "Path to the file."},
             "old_string": {"type": "string", "description": "The exact text to replace"},
             "new_string": {"type": "string", "description": "The replacement text"},
             "replace_all": {
@@ -48,7 +48,7 @@ class StrReplaceTool(Tool):
         replace_all: bool = False,
         **kwargs: Any,
     ) -> ToolResult:
-        file_path = Path(path)
+        file_path = resolve_host_path(path)
         if not file_path.exists():
             return ToolResult.fail(f"File not found: {path}")
 

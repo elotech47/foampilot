@@ -51,6 +51,7 @@ class SimulationState:
     issues: list[str] = field(default_factory=list)
     mesh_quality: dict = field(default_factory=dict)
     convergence_data: dict = field(default_factory=dict)
+    token_usage: dict = field(default_factory=dict)
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     updated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -97,8 +98,8 @@ class StateManager:
         data["phase"] = SimulationPhase(data["phase"])
         mods = [FileModification(**m) for m in data.get("files_modified", [])]
         data["files_modified"] = mods
-        # Handle state files from before confirmed_params was added
         data.setdefault("confirmed_params", {})
+        data.setdefault("token_usage", {})
         return SimulationState(**data)
 
     def _write_markdown(self, state: SimulationState) -> None:

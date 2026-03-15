@@ -2,7 +2,7 @@
 
 An AI agent that lets engineers set up, run, and analyze OpenFOAM CFD simulations through natural language.
 
-> **Status:** MVP implementation complete — 76/76 unit tests passing. Awaiting first end-to-end run with Docker + API key.
+> **Status:** MVP implementation complete — 84/84 unit tests passing. Web UI available alongside the terminal REPL.
 
 ---
 
@@ -22,6 +22,17 @@ Agent: → Searches 236 v11 tutorials for the closest match
 ```
 
 It never generates OpenFOAM files from scratch. It always finds the closest tutorial, copies it, and surgically edits it — preserving valid syntax for your OpenFOAM version.
+
+---
+
+## Interfaces
+
+FoamPilot ships two UIs — choose whichever fits your workflow:
+
+| Interface | Command | Best for |
+|-----------|---------|----------|
+| **Web UI** | `foampilot web` | Rich panels, real-time agent visibility, approval dialogs |
+| **Terminal REPL** | `foampilot run` | Headless servers, scripting, CI pipelines |
 
 ---
 
@@ -69,11 +80,16 @@ foampilot/
 │   ├── index/          # OpenFOAM dict parser, tutorial index builder & searcher
 │   ├── agents/         # 5 subagent classes (consult, setup, mesh, run, analyze)
 │   ├── prompts/        # System prompts for each agent + version context injector
-│   ├── ui/             # Event-driven terminal REPL (Rich), common event types
+│   ├── ui/
+│   │   ├── terminal.py        # Event-driven terminal REPL (Rich)
+│   │   └── web/
+│   │       ├── server.py      # FastAPI + WebSocket server
+│   │       ├── runner.py      # Sync→async bridge for the orchestrator
+│   │       └── frontend/      # React + TypeScript + Tailwind UI (Vite)
 │   └── docker/         # Docker SDK client, container manager, volume/path handling
 ├── benchmarks/         # Benchmark runner, scorer, report generator, 10 YAML cases
 ├── tests/
-│   ├── unit/           # 76 tests — all passing, no Docker or API key needed
+│   ├── unit/           # 84 tests — all passing, no Docker or API key needed
 │   ├── integration/    # Docker + API key required — run manually
 │   └── fixtures/       # Sample dicts, log files, mini case directories
 ├── scripts/
@@ -100,17 +116,23 @@ foampilot/
 
 ```bash
 # Clone / navigate to the project
-cd foampilot
+cd foamPilot
 
-# Create virtual environment and install
-uv venv .venv
-source .venv/bin/activate          # Windows: .venv\Scripts\activate
-uv pip install -e ".[dev]"
+# Option A — virtualenvwrapper (recommended)
+mkvirtualenv foampilot -p python3.11   # or python3.13
+pip install -e ".[dev,web]"
+
+# Option B — standard venv
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev,web]"
 
 # Configure environment
 cp .env.example .env
 # Edit .env — set ANTHROPIC_API_KEY at minimum
 ```
+
+> **Note for uv users on macOS:** uv marks its `.venv` directory with the macOS hidden flag, which Python 3.13 propagates to `.pth` files, causing `ModuleNotFoundError` at import time. Use a regular venv (as above) to avoid this.
 
 ### Build the Tutorial Index
 
@@ -152,10 +174,32 @@ This starts two containers:
 
 ### Launch FoamPilot
 
+Activate your environment first:
+
 ```bash
-foampilot
+workon foampilot          # virtualenvwrapper
 # or
-uv run foampilot
+source .venv/bin/activate # standard venv
+```
+
+**Web UI** (recommended):
+
+```bash
+# First time only — build the React frontend
+cd src/foampilot/ui/web/frontend && npm install && npm run build && cd -
+
+# Start the server (opens browser automatically)
+foampilot web
+```
+
+The web UI runs at `http://127.0.0.1:8080` and provides three panels: a live file explorer, an agent process stream with expandable tool cards, and a chat panel with inline approval prompts.
+
+**Terminal REPL**:
+
+```bash
+foampilot run
+# or with an immediate prompt:
+foampilot run "Simulate lid-driven cavity flow at Re=100"
 ```
 
 ---
@@ -163,11 +207,20 @@ uv run foampilot
 ## Usage Examples
 
 ```bash
-# Interactive REPL
-foampilot
+# Activate your environment first
+workon foampilot   # or: source .venv/bin/activate
 
-# Direct prompt
-foampilot "Set up a lid-driven cavity at Re=100"
+# Web UI (opens browser at http://127.0.0.1:8080)
+foampilot web
+
+# Web UI on a custom port, no browser
+foampilot web --port 9000 --no-browser
+
+# Terminal REPL
+foampilot run
+
+# Terminal — direct prompt
+foampilot run "Set up a lid-driven cavity at Re=100"
 
 # Run a benchmark evaluation
 foampilot eval --case lid_driven_cavity
@@ -176,7 +229,7 @@ foampilot eval --case lid_driven_cavity
 foampilot index --version 11
 ```
 
-Inside the REPL, FoamPilot shows every tool call as it happens. Destructive actions (file overwrites, solver runs) are shown with an approval prompt unless you start with `--auto-approve`.
+Destructive actions (file overwrites, solver runs) always pause for approval unless Auto-approve is enabled. In the web UI this appears as an inline approval card; in the terminal it is a prompt in the REPL.
 
 ---
 
@@ -227,7 +280,7 @@ Ten benchmark cases across three tiers test the agent end-to-end:
 Run all Tier 1 benchmarks:
 
 ```bash
-foampilot eval --tier 1
+foampilot eval --suite tier1
 ```
 
 Scores are written to `benchmarks/results/` and summarised in a Markdown table by `report.py`.
@@ -255,20 +308,36 @@ All settings live in `.env` (copied from `.env.example`):
 
 ## Development
 
-See [development.md](development.md) for the full architecture guide, coding conventions, and implementation notes.
+See [development.md](tutorials/development.md) for the full architecture guide, coding conventions, and implementation notes.
 
 ```bash
+# Activate environment
+workon foampilot   # or: source .venv/bin/activate
+
 # Linting
-uv run ruff check src/ tests/
+ruff check src/ tests/
 
 # Run all unit tests with coverage
-uv run pytest tests/unit/ --cov=src/foampilot --cov-report=html
+pytest tests/unit/ --cov=src/foampilot --cov-report=html
 
 # Integration tests (requires Docker)
-uv run pytest tests/integration/ -v
+pytest tests/integration/ -v
 
 # Rebuild tutorial index
-uv run python scripts/build_index.py --version 11 --tutorials-path OpenFOAM-11/tutorials
+python scripts/build_index.py --version 11 --tutorials-path OpenFOAM-11/tutorials
+```
+
+### Web UI development
+
+```bash
+# Run backend + Vite dev server simultaneously (hot reload)
+workon foampilot
+foampilot web --no-browser &          # API + WS on :8080
+cd src/foampilot/ui/web/frontend
+npm run dev                           # UI on :5173 (proxies /api and /ws to :8080)
+
+# Rebuild production bundle
+npm run build
 ```
 
 ### Adding a New Tool

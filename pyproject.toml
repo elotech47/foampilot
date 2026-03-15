@@ -1,6 +1,6 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "foampilot"
@@ -37,12 +37,10 @@ web = [
 [project.scripts]
 foampilot = "foampilot.__main__:main"
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/foampilot"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.uv]
-# Always install this package in editable mode so the src/ layout is resolved
-# correctly under Python 3.13, which does not reliably process hatchling's .pth files.
 package = true
 
 [tool.ruff]

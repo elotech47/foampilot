@@ -32,6 +32,13 @@ def main() -> None:
     index_parser.add_argument("--tutorials-path", help="Path to OpenFOAM tutorials directory")
     index_parser.add_argument("--verbose", "-v", action="store_true", help="Show DEBUG logs")
 
+    # Start the web UI server
+    web_parser = subparsers.add_parser("web", help="Launch the FoamPilot web UI")
+    web_parser.add_argument("--port", type=int, default=8080, help="Port to listen on (default: 8080)")
+    web_parser.add_argument("--host", default="127.0.0.1", help="Host to bind (default: 127.0.0.1)")
+    web_parser.add_argument("--no-browser", action="store_true", help="Do not open browser automatically")
+    web_parser.add_argument("--build", action="store_true", help="Build the frontend before starting")
+
     args = parser.parse_args()
 
     # Configure logging before any foampilot imports use structlog
@@ -45,6 +52,8 @@ def main() -> None:
         _run_eval(args)
     elif args.command == "index":
         _run_index(args)
+    elif args.command == "web":
+        _run_web(args)
     else:
         parser.print_help()
         sys.exit(1)
@@ -63,6 +72,7 @@ def _run_eval(args: argparse.Namespace) -> None:
     project_root = Path(__file__).parent.parent.parent
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
+
     from benchmarks.runner import BenchmarkRunner
     runner = BenchmarkRunner()
     if args.case:
@@ -71,6 +81,69 @@ def _run_eval(args: argparse.Namespace) -> None:
         runner.run_suite(args.suite)
     else:
         runner.run_all()
+
+
+def _run_web(args: argparse.Namespace) -> None:
+    """Launch the FoamPilot web UI server."""
+    try:
+        import uvicorn
+    except ImportError:
+        print("ERROR: web dependencies not installed. Run: uv pip install 'foampilot[web]'")
+        sys.exit(1)
+
+    frontend_dir = (
+        __import__("pathlib").Path(__file__).parent / "ui" / "web" / "frontend"
+    )
+
+    if args.build:
+        import subprocess
+        print("Building frontend...")
+        result = subprocess.run(
+            ["npm", "run", "build"],
+            cwd=str(frontend_dir),
+            check=False,
+        )
+        if result.returncode != 0:
+            print("ERROR: Frontend build failed.")
+            sys.exit(1)
+        print("Frontend built successfully.")
+
+    url = f"http://{args.host}:{args.port}"
+    print("Loading FoamPilot (this may take a moment on first run)...")
+
+    from foampilot.ui.web.server import app
+
+    import uvicorn.config
+    uv_config = uvicorn.config.Config(
+        app, host=args.host, port=args.port, log_level="warning"
+    )
+    server = uvicorn.Server(uv_config)
+
+    if not args.no_browser:
+        import threading
+        import webbrowser
+
+        def _open_when_ready():
+            while not server.started:
+                import time
+                time.sleep(0.2)
+            print(f"FoamPilot Web UI → {url}")
+            webbrowser.open(url)
+
+        threading.Thread(target=_open_when_ready, daemon=True).start()
+    else:
+        # Still defer the URL message until the server is actually up
+        import threading
+
+        def _print_when_ready():
+            while not server.started:
+                import time
+                time.sleep(0.2)
+            print(f"FoamPilot Web UI → {url}")
+
+        threading.Thread(target=_print_when_ready, daemon=True).start()
+
+    server.run()
 
 
 def _run_index(args: argparse.Namespace) -> None:

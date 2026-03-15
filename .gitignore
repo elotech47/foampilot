@@ -13,3 +13,9 @@ development.md
 .DS_Store
 *.docx
 logs/
+node_modules/
+src/foampilot/ui/web/frontend/dist/
+src/foampilot/ui/web/frontend/package-lock.json
+*.egg-info/
+*.egg/
+*.egg-info/

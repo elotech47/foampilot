@@ -1,12 +1,12 @@
 """Read arbitrary files from the filesystem."""
 
-from pathlib import Path
 from typing import Any
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.tools.base import Tool, ToolResult
 
-_MAX_CHARS = 10_000  # Limit raw file content to prevent context overflow
+_MAX_CHARS = 10_000
 
 
 class ReadFileTool(Tool):
@@ -14,7 +14,7 @@ class ReadFileTool(Tool):
 
     name = "read_file"
     description = (
-        "Read a text file from the filesystem. "
+        "Read a text file and return its content. "
         "For OpenFOAM dictionary files, prefer read_foam_file for structured parsing. "
         "Returns raw text content, truncated to 10,000 characters if needed."
     )
@@ -23,7 +23,7 @@ class ReadFileTool(Tool):
         "properties": {
             "path": {
                 "type": "string",
-                "description": "Absolute path to the file",
+                "description": "Path to the file to read.",
             },
             "start_line": {
                 "type": "integer",
@@ -46,9 +46,9 @@ class ReadFileTool(Tool):
         num_lines: int | None = None,
         **kwargs: Any,
     ) -> ToolResult:
-        file_path = Path(path)
+        file_path = resolve_host_path(path)
         if not file_path.exists():
-            return ToolResult.fail(f"File not found: {path}")
+            return ToolResult.fail(f"File not found: {path} (resolved to {file_path})")
         if not file_path.is_file():
             return ToolResult.fail(f"Not a file: {path}")
 
@@ -69,7 +69,7 @@ class ReadFileTool(Tool):
 
             return ToolResult.ok(
                 data={
-                    "path": path,
+                    "path": str(file_path),
                     "content": content,
                     "total_lines": total_lines,
                     "lines_shown": f"{start + 1}-{min(end, total_lines)}",

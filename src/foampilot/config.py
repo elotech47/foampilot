@@ -13,14 +13,18 @@ load_dotenv()
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 SRC_ROOT = Path(__file__).parent
 
-CASES_DIR = Path(os.environ.get("FOAMPILOT_CASES_DIR", PROJECT_ROOT / "cases"))
-INDEX_DIR = Path(
-    os.environ.get("FOAMPILOT_INDEX_DIR", SRC_ROOT / "index" / "data")
-)
+def _resolve(env_key: str, default: Path) -> Path:
+    """Read a path from env, resolve relative paths against PROJECT_ROOT."""
+    raw = os.environ.get(env_key)
+    if raw is None:
+        return default
+    p = Path(raw)
+    return p if p.is_absolute() else (PROJECT_ROOT / p).resolve()
 
-# Host-side path to the OpenFOAM tutorials directory.
-# Used by copy_tutorial to locate tutorial files on the host (not inside Docker).
-TUTORIALS_DIR = Path(os.environ.get("FOAMPILOT_TUTORIALS_DIR", PROJECT_ROOT / "OpenFOAM-11" / "tutorials"))
+
+CASES_DIR = _resolve("FOAMPILOT_CASES_DIR", PROJECT_ROOT / "cases")
+INDEX_DIR = _resolve("FOAMPILOT_INDEX_DIR", SRC_ROOT / "index" / "data")
+TUTORIALS_DIR = _resolve("FOAMPILOT_TUTORIALS_DIR", PROJECT_ROOT / "OpenFOAM-11" / "tutorials")
 
 # ── Anthropic API ──────────────────────────────────────────────────────────────
 ANTHROPIC_API_KEY: str = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -50,6 +54,11 @@ OPENFOAM_CONTAINER: str = os.environ.get("OPENFOAM_CONTAINER", "foampilot-openfo
 # Path inside the OpenFOAM container where cases are mounted.
 # Must match the volume mount in docker-compose.yml (./cases:/home/openfoam/cases).
 CONTAINER_CASES_DIR: str = os.environ.get("FOAMPILOT_CONTAINER_CASES_DIR", "/home/openfoam/cases")
+
+# OpenFOAM install prefix inside the container (e.g. /opt/openfoam11).
+CONTAINER_FOAM_DIR: str = os.environ.get(
+    "FOAMPILOT_CONTAINER_FOAM_DIR", f"/opt/openfoam{OPENFOAM_VERSION}"
+)
 
 # ── Context Window Sizes (token counts) ───────────────────────────────────────
 # sonnet-4-5 has a 200k token context window

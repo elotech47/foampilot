@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body {
+    background-color: #070b14;
+    color: #e2e8f0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c2a3e;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #243449;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply flex flex-col bg-[#0d1117] border border-[#1c2a3e] overflow-hidden;
+  }
+
+  .panel-header {
+    @apply flex items-center justify-between px-4 py-2.5 bg-[#111827] border-b border-[#1c2a3e] shrink-0;
+  }
+
+  .panel-title {
+    @apply text-sm font-semibold tracking-widest text-slate-400 uppercase;
+  }
+
+  .btn-icon {
+    @apply flex items-center justify-center w-7 h-7 rounded text-slate-500
+           hover:text-slate-300 hover:bg-[#162035] transition-colors duration-150;
+  }
+
+  .phase-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .tag {
+    @apply inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs font-mono;
+  }
+}
+
+/* Typing cursor animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink::after {
+  content: '▋';
+  animation: blink 1s step-start infinite;
+  margin-left: 2px;
+  color: #3b82f6;
+}
+
+/* Smooth height collapse */
+.collapsible {
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+.collapsible.closed {
+  max-height: 0;
+  opacity: 0;
+}
+.collapsible.open {
+  max-height: 2000px;
+  opacity: 1;
+}

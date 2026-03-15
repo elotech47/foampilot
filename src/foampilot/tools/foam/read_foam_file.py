@@ -1,8 +1,8 @@
 """Read and parse an OpenFOAM dictionary file into structured data."""
 
-from pathlib import Path
 from typing import Any
 
+from foampilot.core.paths import resolve_host_path
 from foampilot.core.permissions import PermissionLevel
 from foampilot.index.parser import parse_foam_file
 from foampilot.tools.base import Tool, ToolResult
@@ -22,7 +22,7 @@ class ReadFoamFileTool(Tool):
         "properties": {
             "path": {
                 "type": "string",
-                "description": "Absolute path to the OpenFOAM dictionary file",
+                "description": "Path to the OpenFOAM dictionary file.",
             },
         },
         "required": ["path"],
@@ -30,16 +30,16 @@ class ReadFoamFileTool(Tool):
     permission_level = PermissionLevel.AUTO
 
     def execute(self, path: str, **kwargs: Any) -> ToolResult:
-        file_path = Path(path)
+        file_path = resolve_host_path(path)
         if not file_path.exists():
-            return ToolResult.fail(f"File not found: {path}")
+            return ToolResult.fail(f"File not found: {path} (resolved to {file_path})")
         if not file_path.is_file():
             return ToolResult.fail(f"Not a file: {path}")
         try:
             foam = parse_foam_file(file_path)
             return ToolResult.ok(
                 data={
-                    "path": str(path),
+                    "path": str(file_path),
                     "object": foam.object_name,
                     "class": foam.foam_class,
                     "foam_file": foam.foam_file,

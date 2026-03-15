@@ -24,6 +24,9 @@ class VersionProfile(ABC):
     # Maps physics description → actual solver binary name
     SOLVERS: dict[str, str] = {}
 
+    # Maps solver binary → required fvSolution algorithm block name
+    SOLVER_ALGORITHM: dict[str, str] = {}
+
     # Whether this version uses modular solvers (v12+ foundation, ESI)
     USES_MODULAR_SOLVERS: bool = False
 
@@ -77,6 +80,7 @@ class VersionProfile(ABC):
     def prompt_context(self) -> str:
         """Generate a version-specific prompt context string for injection into LLM prompts."""
         solvers_list = "\n".join(f"  - {k}: {v}" for k, v in self.SOLVERS.items())
+        algo_list = "\n".join(f"  - {s} -> {a}" for s, a in self.SOLVER_ALGORITHM.items())
         quirks_list = "\n".join(f"  - {q}" for q in self.QUIRKS)
         unsupported = ", ".join(self.UNSUPPORTED_FEATURES) or "none"
         modular = "YES (modular solvers)" if self.USES_MODULAR_SOLVERS else "NO (traditional solver names)"
@@ -89,6 +93,9 @@ Unsupported features: {unsupported}
 
 Available solvers (physics \u2192 binary):
 {solvers_list}
+
+Solver \u2192 fvSolution algorithm block (MUST match):
+{algo_list}
 
 Known quirks \u2014 CRITICAL, do not violate:
 {quirks_list}
